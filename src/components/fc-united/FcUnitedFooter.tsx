@@ -1,0 +1,73 @@
+import type { ReactNode } from 'react';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { fcBebas } from './fcUnitedFonts';
+import { mdStrikersBrand as b } from './mdStrikersBrand';
+import GiventaCreditLines from '@/components/GiventaCreditLines';
+
+function Shell({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <div className={cn('mx-auto w-full max-w-[1308px] px-4 md:px-7 lg:px-12', className)}>{children}</div>
+  );
+}
+
+export function FcUnitedFooter() {
+  return (
+    <footer className="bg-[#262f3e] px-4 pt-12 pb-6 text-[#848992] md:px-7 lg:px-12">
+      <Shell>
+        {/* Club updates / newsletter — hidden */}
+        <div className="hidden" aria-hidden>
+          <div className="grid gap-6 md:grid-cols-3 md:gap-8">
+            <div>
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-[#848992]">Stay ahead</span>
+              <p className={cn(fcBebas.className, 'text-3xl text-white')}>Club updates</p>
+            </div>
+            <p className="max-w-sm text-sm">Join the mailing list for match announcements — form disabled in static demo.</p>
+            <div className="flex flex-wrap gap-2">
+              <input
+                type="email"
+                placeholder="Email"
+                disabled
+                className="min-w-[160px] flex-1 rounded-[32px] border border-white/20 bg-black/25 px-4 py-3 text-sm text-white placeholder:text-[#848992]"
+              />
+              <button
+                type="button"
+                disabled
+                className="rounded-[32px] px-6 py-3 text-sm font-semibold text-white"
+                style={{ backgroundColor: `${b.accent}80` }}
+              >
+                Subscribe
+              </button>
+            </div>
+          </div>
+          <div className="my-8 h-0.5 bg-white/[0.08]" />
+        </div>
+        <div className="border-t border-white/10 pt-8 text-sm">
+          <div className="flex flex-wrap justify-center gap-5">
+            <Link href="/" className="font-medium text-white transition-colors hover:text-[#e31837]">
+              Home
+            </Link>
+            <Link href="/events" className="font-medium text-white transition-colors hover:text-[#e31837]">
+              Events
+            </Link>
+            <Link href="/matches" className="font-medium text-white transition-colors hover:text-[#e31837]">
+              Matches
+            </Link>
+            <Link href="/team" className="font-medium text-white transition-colors hover:text-[#e31837]">
+              Team
+            </Link>
+            <Link href="/gallery" className="font-medium text-white transition-colors hover:text-[#e31837]">
+              Gallery
+            </Link>
+            <Link href="/contacts" className="font-medium text-white transition-colors hover:text-[#e31837]">
+              Contacts
+            </Link>
+          </div>
+          <div className="mt-8 text-center text-xs text-[#848992]">
+            <GiventaCreditLines variant="fcUnited" />
+          </div>
+        </div>
+      </Shell>
+    </footer>
+  );
+}

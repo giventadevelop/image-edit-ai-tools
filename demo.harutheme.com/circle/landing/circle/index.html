@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<!--
+  LOCAL REPLICA — HOW THIS COPY WAS OBTAINED (ThemeForest 403 / mirror notes)
+  =============================================================================
+  1. ThemeForest preview URL (preview.themeforest.net/.../full_screen_preview/...)
+     often returns HTTP 403 to wget, curl, and other non-browser clients. That is
+     expected: bot protection and policy, not something fixed by User-Agent alone.
+
+  2. The “ThemeForest style” full-screen preview page is mostly Envato chrome
+     (header, buy button, analytics). The actual theme marketing layout and CSS
+     load inside an IFRAME pointing at the author’s demo host — not ThemeForest’s
+     domain. Saving or scraping only the outer preview page does not capture that
+     content.
+
+  3. We did not mirror ThemeForest. We mirrored the iframe target used by the
+     Circle preview:
+     https://demo.harutheme.com/landing/circle/
+     Tool: GNU Wget, recursive, page requisites, link conversion, limited to the
+     /landing path on demo.harutheme.com (plus CDNs for fonts/scripts where used).
+
+  4. Post-download fixes applied in this repo:
+     - Themify icon fonts: wget had mangled ?query suffixes into filenames; fonts
+       were renamed and themify-icons.css was pointed at standard filenames.
+     - Bootstrap Glyphicons: the demo host returned 404 for those files; fonts
+       were added from the Bootstrap 3.3.7 package on jsDelivr and bootstrap CSS
+       was repointed to local ../fonts/ paths.
+     - jQuery and Font Awesome were saved under landing/assets and linked locally.
+     - Google Fonts (Nunito / Playfair / Ubuntu) still load from Google’s CDN
+       unless you vendor those files separately.
+
+  Open the file from disk or serve the landing/ folder with a static server;
+  paths are relative to demo.harutheme.com/landing/circle/ as on the live site.
+-->
+<!-- Open HTML -->
+<html lang="en-US">
+    <!-- Open Head -->
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="../assets/images/favicon.ico" />
+        <meta name="description"  content="Circle WordPress theme is suitable for any creative agencies, corporations, teams, personal as Film Studio, Film Actor, Film Director,… to build their own work." />
+        <meta name="robots" content="noodp,index,follow" />
+        <link rel="canonical" href="https://demo.harutheme.com/circle/" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:title" content="Multipurpose Video, Film WordPress theme" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://demo.harutheme.com/circle/" />
+        <meta property="og:image" content="assets/images/circle-preview.jpg" />
+        <meta property="og:site_name" content="Circle - Multipurpose Video, Film WordPress theme" />
+        <meta property="og:description" content="Circle WordPress theme is suitable for any creative agencies, corporations, teams, personal as Film Studio, Film Actor, Film Director,… to build their own work." />
+        
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Multipurpose Video, Film WordPress theme" />
+        <meta name="twitter:description" content="Circle WordPress theme is suitable for any creative agencies, corporations, teams, personal as Film Studio, Film Actor, Film Director,… to build their own work." />
+        <meta name="twitter:image" content="assets/images/circle-preview.jpg">
+        <meta name="twitter:domain" content="Multipurpose Video, Film WordPress theme" />
+
+
+        <meta itemprop="name" content="Multipurpose Video, Film WordPress theme">
+        <meta itemprop="description" content="Circle WordPress theme is suitable for any creative agencies, corporations, teams, personal as Film Studio, Film Actor, Film Director,… to build their own work.">
+        <meta itemprop="image" content="assets/images/circle-preview.jpg">
+        <title>Multipurpose Video, Film WordPress theme</title>
+
+        <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../assets/fonts/themify/themify-icons.css">
+        <link rel="stylesheet" href="../assets/css/animate.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900,200italic,300italic,400italic,600italic,700italic,800italic,900italic%7CPlayfair+Display+SC:400,700,900,400italic,700italic,900italic%7CPlayfair+Display:400,700,900,400italic,700italic,900italic%7CUbuntu:300,400,500,700,300italic,400italic,500italic,700italic' type='text/css' media='all' />
+    </head>
+
+    <body>
+        <header class="banner">
+            <div class="banner-inner">
+                <div class="banner-top">
+                    <div class="logo">
+                        <a href="https://demo.harutheme.com/circle/" title="Multipurpose Video, Film WordPress theme"><img src="assets/images/logo.png" alt="logo"></a>
+                    </div>
+                    <div class="document-button"><a href="https://document.harutheme.com/circle/" title="Multipurpose Video, Film WordPress theme" target="_blank">Document</a></div>
+                    <div class="purchase-button"><a href="https://1.envato.market/OvMvP" title="Multipurpose Video, Film WordPress theme" target="_blank">Purchase Circle</a></div>
+                </div>
+                <div class="banner-text">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="circle-title wow pulse" data-wow-duration="1000ms" data-wow-delay="500ms">
+                                    <h1>Multi-purpose <span class="primary-color">Video, Film</span><br> WordPress Theme</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="mockup">
+            <div class="container">
+                <div class="mockup-inner wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="1000ms">
+                    <img src="assets/images/mockup.png" alt="">
+                    <div class="demo-number">
+                        <p class="number">+10</p>
+                        <p class="demo-text">Demos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="demos">
+            <div class="container">
+                <div class="demos-title wow fadeInUp" data-wow-duration="1000ms">
+                    <img src="assets/images/title-image.png" alt="">
+                    <h1><span>+03</span>New Homepages</h1>
+                </div>
+                <div class="row demos-list-new">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/08-home-blogger.png" alt="Blog Magazine">
+                                <div class="item-overlay">
+                                    <a href="https://demo.harutheme.com/circle/home-8/" title="Blog Magazine" target="_blank">View Demo</a>
+                                </div>
+                            </div>
+                            <h3>Blog Magazine</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/09-home-agency.png" alt="Home Creative Agency">
+                                <div class="item-overlay">
+                                    <a href="https://demo.harutheme.com/circle/home-9/" title="Home Creative Agency" target="_blank">View Demo</a>
+                                </div>
+                            </div>
+                            <h3>Creative Agency</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/10-home-creative-studio.png" alt="Home Creative Studio">
+                                <div class="item-overlay">
+                                    <a href="https://demo.harutheme.com/circle/home-10/" title="Home Creative Studio" target="_blank">View Demo</a>
+                                </div>
+                            </div>
+                            <h3>Creative Studio</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="demos-title wow fadeInUp" data-wow-duration="1000ms">
+                    <img src="assets/images/title-image.png" alt="">
+                    <h1><span>+7</span>Beautiful Homepages</h1>
+                    <p>Circle is suitable for any creative agencies, corporations, teams, personal as Film Studio, Film Actor, Film Director,… to build their own work.</p>
+                </div>
+                <div class="row demos-list">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/01-home-film-maker.png" alt="Home Film Maker">
+                                <div class="item-overlay">
+                                    <a href="https://demo.harutheme.com/circle/" title="Home Film Maker" target="_blank">View Demo</a>
+                                </div>
+                            </div>
+                            <h3>Home Film Maker</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/02-home-studio.png" alt="Home Film Studio">
+                                <a href="https://demo.harutheme.com/circle/home-2/" title="Home Film Studio" target="_blank">View Demo</a>
+                            </div>
+                            <h3>Home Film Studio</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/03-home-director.png" alt="Home Director">
+                                <a href="https://demo.harutheme.com/circle/home-3/" title="Home Director" target="_blank">View Demo</a>
+                            </div>
+                            <h3>Home Director</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/04-home-actor.png" alt="Home Actor">
+                                <a href="https://demo.harutheme.com/circle/home-4/" title="Home Actor" target="_blank">View Demo</a>
+                            </div>
+                            <h3>Home Actor</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/05-home-portfolio.png" alt="Home Videos">
+                                <a href="https://demo.harutheme.com/circle/home-5/" title="Home Videos" target="_blank">View Demo</a>
+                            </div>
+                            <h3>Home Videos</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/06-home-film-online.png" alt="Home Film Online">
+                                <a href="https://demo.harutheme.com/circle/home-6/" title="Home Film Online" target="_blank">View Demo</a>
+                            </div>
+                            <h3>Home Film Online</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="demo-item wow fadeInUp" data-wow-duration="1000ms">
+                            <div class="item-image">
+                                <img src="assets/images/home/07-home-film-online-leftmenu.png" alt="Home Film Online Sidebar">
+                                <a href="https://demo.harutheme.com/circle/home-7/" title="Home Film Online Sidebar" target="_blank">View Demo</a>
+                            </div>
+                            <h3>Home Film Online Sidebar</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="demo-story wow fadeInUp" data-wow-duration="1000ms">
+                            <img src="assets/images/story-begin.png" alt="Story Begin">
+                            <a href="https://1.envato.market/OvMvP" title="Purchase Circle" target="_blank">Purchase Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="features">
+            <div class="container">
+                <div class="features-title wow fadeInUp" data-wow-duration="1000ms">
+                    <h1>Theme features</h1>
+                </div>
+                <div class="row features-list">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="feature-item wow fadeInUp" data-wow-duration="1000ms">
+                            <i class="ti-tablet"></i>
+                            <h2>Fully responsive</h2>
+                            <p>With this theme, your site is not only in computer, but also in mobile, tablets, and TV.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="feature-item wow fadeInUp" data-wow-duration="1000ms">
+                            <i class="ti-hand-point-up"></i>
+                            <h2>01 Click Demo Installation</h2>
+                            <p>Just only 1 click demo, you will have a perfect demo in your site in a snap.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="feature-item wow fadeInUp" data-wow-duration="1000ms">
+                            <i class="ti-paint-bucket"></i>
+                            <h2>Easy customize Colors</h2>
+                            <p>Unlimited color choices! Color options are provided for each element using an advanced color selection tool.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="feature-item wow fadeInUp" data-wow-duration="1000ms">
+                            <i class="ti-file"></i>
+                            <h2>Online document</h2>
+                            <p>Document have both online and html version to help you easy to customize our theme as you want.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="feature-item wow fadeInUp" data-wow-duration="1000ms">
+                            <i class="ti-video-camera"></i>
+                            <h2>Powerful Ajax</h2>
+                            <p>The power of Ajax with Display video, film... will more attractive with customer and increase your Website speed.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="feature-item wow fadeInUp" data-wow-duration="1000ms">
+                            <i class="ti-html5"></i>
+                            <h2>Built in with HTML5, CSS3</h2>
+                            <p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="feature-item wow fadeInUp" data-wow-duration="1000ms">
+                            <i class="ti-face-smile"></i>
+                            <h2>Fast & Professional Support </h2>
+                            <p>You must know that we are always here and willing to support you with any problem in our theme.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="feature-item wow fadeInUp" data-wow-duration="1000ms">
+                            <i class="ti-desktop"></i>
+                            <h2>Newsletter Popup included</h2>
+                            <p>Set your popup in an unlimited way: entrance and exit effect, pages and devices to display, time to appear and disappear.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="design">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="circle">
+                            <img src="assets/images/circle.png" alt="" class="wow fadeInLeft" data-wow-duration="1000ms">
+                            <h1 class="wow fadeInUp" data-wow-duration="1000ms">Amazing design with<br>beautiful layout!</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="revolution wow pulse" data-wow-duration="1000ms" data-wow-delay="1000ms">
+                            <div class="revo-text">
+                                <p>Revolution Slider<br>included</p>
+                            </div>
+                            <div class="revo-info">
+                                <img src="assets/images/arrow-left.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="visual-composer wow pulse" data-wow-duration="1000ms" data-wow-delay="1000ms">
+                             <div class="visual-info">
+                                <img src="assets/images/arrow-right.png" alt="">
+                            </div>
+                            <div class="visual-text">
+                                <p>Visual Composer<br>included</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ipad">
+                <img src="assets/images/ipad.png" alt="">
+            </div>
+        </section>
+        <footer>
+            <div class="container">
+                <div class="footer">
+                    <h1>Thanks for watching!</h1>
+                    <p>Do you like it? Start your website today!</p>
+                    <a href="https://1.envato.market/OvMvP" target="_blank">Purchase now</a>
+                </div>
+            </div>
+        </footer>
+        <div class="back-to-top"><i class="fa fa-angle-up"></i></div>
+        <script type="text/javascript" src="../assets/js/jquery-2.1.4.min.js"></script>
+        <script src="../assets/js/wow.min.js"></script>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/script.js"></script>
+        <script src="assets/js/script-circle.js"></script>
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-54747818-4', 'auto');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>
