@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Nano Banana (Gemini 2.5 Flash Image) setup guide — start the dev server, configure the API key, and run the prompt builder." />
+<title>Nano Banana — Setup & Start Guide</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6; color: #333; max-width: 1200px; margin: 0 auto; padding: 20px; background: #fafbfc;
+  }
+  h1 { font-size: 2.5em; border-bottom: 3px solid #0066cc; padding-bottom: 10px; margin-bottom: 10px; }
+  h2 { font-size: 1.8em; border-left: 4px solid #0066cc; padding-left: 15px; margin: 30px 0 15px 0; }
+  h3 { font-size: 1.2em; color: #333; }
+  h4 { font-size: 1em; color: #555; margin: 12px 0 6px 0; }
+  p.lede { color: #555; margin-top: 0; }
+  code {
+    background-color: #e8f4f8; color: #0d3b66; padding: 2px 6px;
+    border-radius: 3px; border: 1px solid #b8d4e3;
+    font-family: 'Courier New', monospace; font-size: 0.9em;
+  }
+  .code-highlight { background-color: #e8f4f8; color: #0d3b66; padding: 2px 6px; border-radius: 3px; border: 1px solid #b8d4e3; font-family: 'Courier New', monospace; }
+  .script-name {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;
+    padding: 4px 10px; border-radius: 5px; font-family: 'Courier New', monospace;
+    font-weight: bold; display: inline-block; box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  }
+
+  /* Section containers */
+  .section-container {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+    border-left: 4px solid #0066cc; border-radius: 8px;
+    padding: 20px; margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0, 102, 204, 0.1);
+  }
+  .section-container.usage { background: linear-gradient(135deg, #f0e6ff 0%, #e6ccff 100%); border-left-color: #9c27b0; }
+  .section-container.parameters { background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%); border-left-color: #ff9800; }
+  .section-container.output { background: linear-gradient(135deg, #e6ffe6 0%, #ccffcc 100%); border-left-color: #28a745; }
+  .section-header {
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%); color: white;
+    padding: 12px 20px; margin: -20px -20px 20px -20px; border-radius: 8px 8px 0 0;
+    font-size: 1.2em; font-weight: bold; display: flex; align-items: center; gap: 10px;
+  }
+  .section-header.usage { background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); }
+  .section-header.parameters { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); }
+  .section-header.output { background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); }
+
+  /* Info / warning boxes */
+  .info { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .success { background: #d4edda; border-left: 4px solid #28a745; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .info code, .warning code, .success code { background-color: #e8f4f8; color: #0d3b66; border: 1px solid #b8d4e3; }
+
+  /* Command blocks */
+  .command-block {
+    border-radius: 8px; padding: 0; margin: 16px 0; overflow: hidden;
+    border: 2px solid #2196f3;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  }
+  .command-block.verify {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border-color: #4caf50;
+  }
+  .command-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; background: rgba(255, 255, 255, 0.45);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .command-type { font-weight: bold; color: #0d3b66; font-size: 0.9em; }
+  .command-header-buttons { display: flex; gap: 8px; }
+  .command-parameters { padding: 15px; background: rgba(255, 255, 255, 0.5); border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+  .command-parameters h5 { margin: 0 0 12px 0; font-size: 0.9em; color: #333; font-weight: bold; }
+  .parameter-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .parameter-group.single { grid-template-columns: 1fr; }
+  .parameter-input { display: flex; flex-direction: column; gap: 4px; }
+  .parameter-input label { font-size: 0.8em; color: #555; font-weight: 600; }
+  .parameter-input input {
+    padding: 8px 12px; border: 2px solid #ddd; border-radius: 4px;
+    font-family: 'Courier New', monospace; font-size: 0.9em;
+    transition: border-color 0.2s ease;
+  }
+  .parameter-input input:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1); }
+  .parameter-input input::placeholder { color: #999; font-style: italic; }
+  @media (max-width: 768px) { .parameter-group { grid-template-columns: 1fr; } }
+
+  .command-content {
+    background: #0d2235; color: #e8f4f8; padding: 14px 16px;
+    font-family: 'Courier New', monospace; font-size: 0.9em; white-space: pre-wrap; word-break: break-word;
+  }
+  .command-single-line {
+    padding: 12px 15px; background: #e8f4f8; color: #0d3b66;
+    border-top: 1px solid #b8d4e3; font-family: 'Courier New', monospace; font-size: 0.9em;
+  }
+  .command-single-line-label { color: #666; font-size: 0.8em; margin-bottom: 4px; font-weight: bold; }
+  .command-single-line code { background: transparent; border: none; padding: 0; color: #0d3b66; }
+
+  /* Copy buttons */
+  .copy-button, .copy-button-template {
+    color: white; border: none; padding: 6px 12px; border-radius: 4px;
+    cursor: pointer; font-size: 0.85em; font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  .copy-button { background-color: #0066cc; }
+  .copy-button:hover { background-color: #0052a3; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
+  .copy-button.copied { background-color: #28a745; }
+  .copy-button-template { background-color: #6c757d; }
+  .copy-button-template:hover { background-color: #5a6268; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
+  .copy-button-template.copied { background-color: #28a745; }
+
+  /* Tables */
+  table {
+    border-collapse: collapse; width: 100%; margin: 15px 0;
+    background: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+  th {
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%); color: white;
+    font-weight: bold; text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.5px;
+  }
+  tr:nth-child(even) { background-color: #f8f9fa; }
+  tr:hover { background-color: #e3f2fd; transition: background-color 0.2s ease; }
+  td code { background-color: #e8f4f8; color: #0d3b66; padding: 3px 8px; border-radius: 3px; border: 1px solid #b8d4e3; }
+
+  /* TOC */
+  .toc { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 12px 18px; margin: 20px 0; }
+  .toc h3 { margin: 0 0 8px 0; }
+  .toc ul { margin: 0; padding-left: 20px; }
+  .toc a { color: #0066cc; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* Parameters list container */
+  .parameters-list { background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%); border-left: 4px solid #ff9800; border-radius: 8px; padding: 15px 20px; margin: 15px 0; }
+  .parameters-list strong { color: #ff9800; font-weight: bold; }
+  .parameters-list code { background-color: #e8f4f8; color: #0d3b66; padding: 3px 8px; border-radius: 3px; border: 1px solid #b8d4e3; }
+</style>
+</head>
+<body>
+
+<h1>🍌 Nano Banana — Setup &amp; Start Guide</h1>
+<p class="lede">
+  How to start the Next.js dev server on port <code>3002</code>, configure the
+  <code>GEMINI_API_KEY</code>, and open the Nano Banana prompt builder at the site root.
+</p>
+
+<div class="toc">
+  <h3>Table of Contents</h3>
+  <ul>
+    <li><a href="#overview">1. Overview</a></li>
+    <li><a href="#env">2. Environment configuration (<code>.env.local</code>)</a></li>
+    <li><a href="#start">3. Starting the dev server (port 3002)</a></li>
+    <li><a href="#access">4. Accessing the app</a></li>
+    <li><a href="#api">5. API endpoint reference (<code>/api/nano-banana</code>)</a></li>
+    <li><a href="#cli">6. Standalone CLI test script</a></li>
+    <li><a href="#restore">7. Restoring the previous home page</a></li>
+  </ul>
+</div>
+
+<!-- ============================================ -->
+<h2 id="overview">1. Overview</h2>
+<div class="section-container">
+  <p>
+    The Nano Banana prompt builder is served as the <strong>default home page</strong> of this Next.js app
+    (<code>src/app/page.tsx</code>). It lets you attach reference images, fill parameter fields
+    (aspect ratio, dimensions, style, lighting, camera, mood, palette, subject, setting, modifications,
+    negative prompt, variations, seed, model), edit a templated prompt + JSON with <code>{{token}}</code>
+    placeholders, copy the merged output, and call Google's
+    <code>gemini-2.5-flash-image</code> model via an internal API route.
+  </p>
+  <p>
+    The API key lives server-side only (never shipped to the browser). The page is a client component;
+    its <strong>🍌 Run</strong> button posts to <code>/api/nano-banana</code>, which forwards the request
+    to Gemini using the key from <code>.env.local</code>.
+  </p>
+</div>
+
+<!-- ============================================ -->
+<h2 id="env">2. Environment configuration</h2>
+<div class="section-container parameters">
+  <div class="section-header parameters">⚙️ Required environment variable</div>
+  <p>Add the following line to <code>.env.local</code> at the project root:</p>
+
+  <div class="command-block verify" data-command-type="verify"
+       data-command-base="GEMINI_API_KEY"
+       data-template-command="GEMINI_API_KEY=your_key_from_aistudio_google_com">
+    <div class="command-header">
+      <span class="command-type">.env.local entry</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'env-gemini-key')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'env-gemini-key')" title="Copy customized">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-parameters">
+      <h5>🔧 Customize Parameters:</h5>
+      <div class="parameter-group single">
+        <div class="parameter-input">
+          <label for="env-gemini-key-value">Your Gemini API key:</label>
+          <input type="text" id="env-gemini-key-value" placeholder="AIza…" oninput="updateCommand('env-gemini-key', 'value', this.value)">
+        </div>
+      </div>
+    </div>
+    <div class="command-content" id="env-gemini-key">GEMINI_API_KEY=your_key_from_aistudio_google_com</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Single-line:</div>
+      <code id="env-gemini-key-single-code">GEMINI_API_KEY=your_key_from_aistudio_google_com</code>
+    </div>
+  </div>
+
+  <div class="parameters-list">
+    <p><strong>Variables:</strong></p>
+    <ul>
+      <li><code>GEMINI_API_KEY</code> — <strong>required</strong>. Server-side only. Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">aistudio.google.com/apikey</a>.</li>
+      <li><code>GEMINI_IMAGE_MODEL</code> — <em>optional</em>. Overrides the default <code>gemini-2.5-flash-image</code>. Used by the CLI test script; the web UI has its own model selector.</li>
+    </ul>
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Security:</strong> <code>.env.local</code> is already in <code>.gitignore</code> — never commit your key. The key is only read from the server route (<code>src/app/api/nano-banana/route.ts</code>), so it is never exposed to the browser.
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="start">3. Starting the dev server (port 3002)</h2>
+<div class="section-container usage">
+  <div class="section-header usage">📋 Start command</div>
+
+  <p>Use this command to run the Next.js dev server on port <strong>3002</strong>:</p>
+
+  <div class="command-block" data-command-type="setup"
+       data-command-base="npm run dev --"
+       data-template-command="npm run dev -- -p 3002">
+    <div class="command-header">
+      <span class="command-type">Dev server — custom port</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'dev-start-port')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'dev-start-port')" title="Copy customized">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-parameters">
+      <h5>🔧 Customize Parameters:</h5>
+      <div class="parameter-group single">
+        <div class="parameter-input">
+          <label for="dev-start-port-port">Port (default 3000):</label>
+          <input type="text" id="dev-start-port-port" placeholder="3002" value="3002" oninput="updateCommand('dev-start-port', 'port', this.value)">
+        </div>
+      </div>
+    </div>
+    <div class="command-content" id="dev-start-port">npm run dev -- -p 3002</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Windows Single-Line:</div>
+      <code id="dev-start-port-single-code">npm run dev -- -p 3002</code>
+    </div>
+  </div>
+
+  <h3>Alternative ways to set the port</h3>
+
+  <div class="command-block" data-command-type="setup"
+       data-command-base=""
+       data-template-command="$env:PORT=&quot;3002&quot;; npm run dev">
+    <div class="command-header">
+      <span class="command-type">PowerShell — environment variable</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'dev-start-pwsh')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'dev-start-pwsh')" title="Copy">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-content" id="dev-start-pwsh">$env:PORT="3002"; npm run dev</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Windows Single-Line:</div>
+      <code id="dev-start-pwsh-single-code">$env:PORT="3002"; npm run dev</code>
+    </div>
+  </div>
+
+  <div class="command-block" data-command-type="setup"
+       data-command-base=""
+       data-template-command="PORT=3002 npm run dev">
+    <div class="command-header">
+      <span class="command-type">bash / git-bash — environment variable</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'dev-start-bash')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'dev-start-bash')" title="Copy">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-content" id="dev-start-bash">PORT=3002 npm run dev</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Single-Line:</div>
+      <code id="dev-start-bash-single-code">PORT=3002 npm run dev</code>
+    </div>
+  </div>
+
+  <h3>Making it permanent (optional)</h3>
+  <p>To avoid retyping the port flag, add a script to <code>package.json</code>:</p>
+
+  <div class="command-block" data-command-type="setup"
+       data-command-base=""
+       data-template-command='"dev:3002": "next dev --webpack -p 3002"'>
+    <div class="command-header">
+      <span class="command-type">package.json → scripts</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'pkg-json-script')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'pkg-json-script')" title="Copy">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-content" id="pkg-json-script">"dev:3002": "next dev --webpack -p 3002"</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Single-Line:</div>
+      <code id="pkg-json-script-single-code">"dev:3002": "next dev --webpack -p 3002"</code>
+    </div>
+  </div>
+
+  <p>Then start the server with:</p>
+
+  <div class="command-block verify" data-command-type="verify"
+       data-command-base=""
+       data-template-command="npm run dev:3002">
+    <div class="command-header">
+      <span class="command-type">Shorthand (after the package.json change)</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'dev-3002-short')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'dev-3002-short')" title="Copy">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-content" id="dev-3002-short">npm run dev:3002</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Single-Line:</div>
+      <code id="dev-3002-short-single-code">npm run dev:3002</code>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="access">4. Accessing the app</h2>
+<div class="section-container output">
+  <div class="section-header output">📊 URLs</div>
+  <table>
+    <thead>
+      <tr><th>URL</th><th>What it is</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>http://localhost:3002</code></td><td>Nano Banana prompt builder (the new default home)</td></tr>
+      <tr><td><code>http://localhost:3002/nano-banana.html</code></td><td>Standalone static HTML fallback (same UI, served from <code>public/</code>)</td></tr>
+      <tr><td><code>http://localhost:3002/api/nano-banana</code></td><td>POST endpoint called by the page — see next section</td></tr>
+    </tbody>
+  </table>
+
+  <div class="success">
+    <strong>✅ Smoke test:</strong> Open <code>http://localhost:3002</code>, drop a reference image, fill the attributes, click <strong>🍌 Run via Nano Banana API</strong>. A generated image appears inline on success.
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="api">5. API endpoint reference</h2>
+<div class="section-container">
+  <div class="section-header">🔌 <code>POST /api/nano-banana</code></div>
+  <p>Source: <span class="script-name">src/app/api/nano-banana/route.ts</span></p>
+
+  <h3>Request body</h3>
+  <table>
+    <thead>
+      <tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>action</code></td><td><code>"generate" | "describe"</code></td><td>✅</td><td><code>generate</code> creates/edits an image; <code>describe</code> returns structured JSON for an input image</td></tr>
+      <tr><td><code>prompt</code></td><td><code>string</code></td><td>✅ for <code>generate</code></td><td>Final prompt (after token substitution)</td></tr>
+      <tr><td><code>json</code></td><td><code>string</code></td><td>—</td><td>Optional JSON spec appended to the prompt</td></tr>
+      <tr><td><code>images</code></td><td><code>Array&lt;{ mimeType, data }&gt;</code></td><td>✅ for <code>describe</code></td><td>Base64-encoded reference images (no <code>data:</code> prefix)</td></tr>
+      <tr><td><code>model</code></td><td><code>string</code></td><td>—</td><td>Defaults to <code>gemini-2.5-flash-image</code> for generate, <code>gemini-2.5-flash</code> for describe</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Response body (success)</h3>
+  <table>
+    <thead>
+      <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>action</code></td><td><code>string</code></td><td>Echoed back</td></tr>
+      <tr><td><code>model</code></td><td><code>string</code></td><td>Model the request was sent to</td></tr>
+      <tr><td><code>elapsedMs</code></td><td><code>number</code></td><td>Round-trip time to Gemini</td></tr>
+      <tr><td><code>images</code></td><td><code>Array&lt;{ mimeType, data }&gt;</code></td><td>Generated image bytes (base64)</td></tr>
+      <tr><td><code>text</code></td><td><code>string</code></td><td>Any text part of the model response</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============================================ -->
+<h2 id="cli">6. Standalone CLI test script</h2>
+<div class="section-container">
+  <div class="section-header">🧪 Test the Gemini key without the UI</div>
+  <p>A Node script exists at <span class="script-name">scripts/nano-banana-test.mjs</span> for testing the API key end-to-end from the terminal:</p>
+
+  <div class="command-block" data-command-type="setup"
+       data-command-base="node scripts/nano-banana-test.mjs"
+       data-template-command='node scripts/nano-banana-test.mjs "C:\\path\\to\\image.png" "your edit prompt here"'>
+    <div class="command-header">
+      <span class="command-type">Smoke test (edit an image)</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'cli-test')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'cli-test')" title="Copy customized">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-parameters">
+      <h5>🔧 Customize Parameters:</h5>
+      <div class="parameter-group">
+        <div class="parameter-input">
+          <label for="cli-test-imagePath">Image path:</label>
+          <input type="text" id="cli-test-imagePath" placeholder="C:\path\to\image.png" oninput="updateCommand('cli-test', 'imagePath', this.value)">
+        </div>
+        <div class="parameter-input">
+          <label for="cli-test-prompt">Prompt:</label>
+          <input type="text" id="cli-test-prompt" placeholder="make the sky sunset orange" oninput="updateCommand('cli-test', 'prompt', this.value)">
+        </div>
+      </div>
+    </div>
+    <div class="command-content" id="cli-test">node scripts/nano-banana-test.mjs</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Windows Single-Line:</div>
+      <code id="cli-test-single-code">node scripts/nano-banana-test.mjs</code>
+    </div>
+  </div>
+
+  <p>Output images are written to <code>nano-banana-output/</code> in the project root with a timestamped filename.</p>
+</div>
+
+<!-- ============================================ -->
+<h2 id="restore">7. Restoring the previous home page</h2>
+<div class="section-container">
+  <div class="section-header">↩️ If you want the old home back</div>
+  <p>The original home (a one-line renderer for <code>CircleHome6Page</code>) was saved as <code>src/app/page.circle-home.tsx.bak</code>. To restore:</p>
+
+  <div class="command-block" data-command-type="verify"
+       data-command-base=""
+       data-template-command="mv src/app/page.tsx src/app/page.nano-banana.tsx.bak; mv src/app/page.circle-home.tsx.bak src/app/page.tsx">
+    <div class="command-header">
+      <span class="command-type">Swap back (bash / git-bash)</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'restore-home')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'restore-home')" title="Copy">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-content" id="restore-home">mv src/app/page.tsx src/app/page.nano-banana.tsx.bak; mv src/app/page.circle-home.tsx.bak src/app/page.tsx</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Single-Line:</div>
+      <code id="restore-home-single-code">mv src/app/page.tsx src/app/page.nano-banana.tsx.bak; mv src/app/page.circle-home.tsx.bak src/app/page.tsx</code>
+    </div>
+  </div>
+</div>
+
+<script>
+  const commandParams = {};
+
+  function fallbackCopy(text, button) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+    document.body.removeChild(ta);
+    flashCopied(button);
+  }
+
+  function flashCopied(button) {
+    const original = button.textContent;
+    const isTemplate = button.classList.contains('copy-button-template');
+    button.classList.add('copied');
+    button.textContent = '✓ Copied!';
+    setTimeout(() => {
+      button.classList.remove('copied');
+      button.textContent = isTemplate ? '📄 Template' : '📋 Copy';
+    }, 1800);
+    void original;
+  }
+
+  function updateCommand(commandId, paramName, paramValue) {
+    if (!commandParams[commandId]) commandParams[commandId] = {};
+    commandParams[commandId][paramName] = paramValue;
+    updateCommandFromParams(commandId);
+  }
+
+  function updateCommandFromParams(commandId) {
+    const commandElement = document.getElementById(commandId);
+    if (!commandElement) return;
+    const commandBlock = commandElement.closest('.command-block');
+    if (!commandBlock) return;
+    const baseCommand = commandBlock.getAttribute('data-command-base') || '';
+    const params = commandParams[commandId] || {};
+    let command = baseCommand;
+
+    if (commandId === 'dev-start-port') {
+      const port = (params.port || '3002').trim();
+      command = `npm run dev -- -p ${port}`;
+    } else if (commandId === 'env-gemini-key') {
+      const value = (params.value || 'your_key_from_aistudio_google_com').trim();
+      command = `GEMINI_API_KEY=${value}`;
+    } else if (commandId === 'cli-test') {
+      const p = (params.imagePath || '').trim();
+      const pr = (params.prompt || '').trim();
+      command = 'node scripts/nano-banana-test.mjs';
+      if (p) command += ` "${p}"`;
+      if (pr) command += ` "${pr}"`;
+    }
+
+    commandElement.textContent = command;
+    const single = document.getElementById(commandId + '-single-code');
+    if (single) single.textContent = command;
+  }
+
+  function copyCommand(button, commandId) {
+    const commandElement = document.getElementById(commandId);
+    if (!commandElement) return;
+    const text = commandElement.textContent.trim();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => flashCopied(button)).catch(() => fallbackCopy(text, button));
+    } else {
+      fallbackCopy(text, button);
+    }
+  }
+
+  function copyTemplateCommand(button, commandId) {
+    const commandBlock = button.closest('.command-block');
+    if (!commandBlock) return;
+    let templateCommand = commandBlock.getAttribute('data-template-command') || '';
+    templateCommand = templateCommand.replace(/&quot;/g, '"');
+    if (!templateCommand) {
+      const commandElement = document.getElementById(commandId);
+      if (commandElement) templateCommand = commandElement.textContent.trim();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(templateCommand).then(() => flashCopied(button)).catch(() => fallbackCopy(templateCommand, button));
+    } else {
+      fallbackCopy(templateCommand, button);
+    }
+  }
+
+  function initializeCommands() {
+    document.querySelectorAll('.command-block[data-command-base]').forEach(block => {
+      const commandContent = block.querySelector('.command-content');
+      if (!commandContent || !commandContent.id) return;
+      const commandId = commandContent.id;
+      block.querySelectorAll('.parameter-input input').forEach(input => {
+        const inputId = input.id;
+        if (!inputId || !inputId.startsWith(commandId + '-')) return;
+        const paramName = inputId.substring(commandId.length + 1);
+        if (!commandParams[commandId]) commandParams[commandId] = {};
+        commandParams[commandId][paramName] = input.value || '';
+      });
+      updateCommandFromParams(commandId);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initializeCommands);
+</script>
+
+</body>
+</html>

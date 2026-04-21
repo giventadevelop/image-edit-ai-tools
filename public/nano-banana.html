@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Nano Banana (Gemini 2.5 Flash Image) prompt builder and runner" />
+<title>Nano Banana Prompt Builder</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fafbfc;
+  }
+  h1 { font-size: 2.5em; border-bottom: 3px solid #0066cc; padding-bottom: 10px; margin-bottom: 10px; }
+  h2 { font-size: 1.4em; border-left: 4px solid #0066cc; padding-left: 15px; margin: 0 0 15px 0; color: #0d3b66; }
+  h3 { font-size: 1.1em; margin: 0 0 10px 0; color: #333; }
+  p.lede { color: #555; margin-top: 0; }
+  code, .code-highlight {
+    background-color: #e8f4f8; color: #0d3b66; padding: 2px 6px;
+    border-radius: 3px; border: 1px solid #b8d4e3;
+    font-family: 'Courier New', monospace; font-size: 0.9em;
+  }
+  .script-name {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; padding: 4px 10px; border-radius: 5px;
+    font-family: 'Courier New', monospace; font-weight: bold;
+    display: inline-block; box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  }
+
+  /* Section containers */
+  .section-container {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+    border-left: 4px solid #0066cc; border-radius: 8px;
+    padding: 20px; margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0, 102, 204, 0.1);
+  }
+  .section-container.parameters {
+    background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+    border-left-color: #ff9800;
+  }
+  .section-container.usage {
+    background: linear-gradient(135deg, #f0e6ff 0%, #e6ccff 100%);
+    border-left-color: #9c27b0;
+  }
+  .section-container.output {
+    background: linear-gradient(135deg, #e6ffe6 0%, #ccffcc 100%);
+    border-left-color: #28a745;
+  }
+  .section-header {
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    color: white; padding: 12px 20px; margin: -20px -20px 20px -20px;
+    border-radius: 8px 8px 0 0; font-size: 1.1em; font-weight: bold;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-header.parameters { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); }
+  .section-header.usage { background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); }
+  .section-header.output { background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); }
+
+  /* Info / warning boxes */
+  .info { background: #d1ecf1; border-left: 4px solid #0c5460; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .error-box { background: #f8d7da; border-left: 4px solid #dc3545; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .success { background: #d4edda; border-left: 4px solid #28a745; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+
+  /* Parameter inputs */
+  .parameter-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .parameter-group.single { grid-template-columns: 1fr; }
+  .parameter-group.three { grid-template-columns: 1fr 1fr 1fr; }
+  .parameter-input { display: flex; flex-direction: column; gap: 4px; }
+  .parameter-input label { font-size: 0.85em; color: #555; font-weight: 600; }
+  .parameter-input input,
+  .parameter-input select,
+  .parameter-input textarea {
+    padding: 8px 12px; border: 2px solid #ddd; border-radius: 4px;
+    font-family: 'Courier New', monospace; font-size: 0.9em;
+    transition: border-color 0.2s ease; background: #fff;
+  }
+  .parameter-input input:focus,
+  .parameter-input select:focus,
+  .parameter-input textarea:focus {
+    outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  }
+  .parameter-input textarea { min-height: 60px; resize: vertical; font-family: 'Courier New', monospace; }
+  .parameter-input textarea.tall { min-height: 180px; }
+  .parameter-input textarea.taller { min-height: 260px; }
+  .parameter-input .hint { font-size: 0.75em; color: #888; font-weight: normal; margin-top: 2px; }
+
+  @media (max-width: 768px) {
+    .parameter-group, .parameter-group.three { grid-template-columns: 1fr; }
+  }
+
+  /* Buttons */
+  .button-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+  button.btn {
+    background-color: #0066cc; color: white; border: none;
+    padding: 10px 16px; border-radius: 4px; cursor: pointer;
+    font-size: 0.9em; font-weight: bold; transition: all 0.25s ease;
+  }
+  button.btn:hover { background-color: #0052a3; transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  button.btn.template { background-color: #6c757d; }
+  button.btn.template:hover { background-color: #5a6268; }
+  button.btn.run { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); }
+  button.btn.run:hover { background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%); }
+  button.btn.describe { background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); }
+  button.btn.describe:hover { background: linear-gradient(135deg, #7b1fa2 0%, #6a1b9a 100%); }
+  button.btn.copied { background-color: #28a745 !important; }
+  button.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* Image upload */
+  .drop-zone {
+    border: 2px dashed #b8d4e3; background: #f8fcff; border-radius: 8px;
+    padding: 24px; text-align: center; color: #555; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .drop-zone.dragover { background: #e8f4f8; border-color: #0066cc; }
+  .drop-zone input[type=file] { display: none; }
+  .thumb-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .thumb {
+    position: relative; border: 1px solid #b8d4e3; border-radius: 6px;
+    overflow: hidden; background: #fff;
+  }
+  .thumb img { display: block; max-width: 140px; max-height: 140px; }
+  .thumb .remove {
+    position: absolute; top: 4px; right: 4px;
+    background: rgba(220, 53, 69, 0.9); color: #fff;
+    border: none; border-radius: 50%; width: 22px; height: 22px;
+    cursor: pointer; font-size: 0.8em; line-height: 1;
+  }
+
+  /* Preview block */
+  .preview-block {
+    background-color: #e8f4f8; color: #0d3b66; border: 1px solid #b8d4e3;
+    border-radius: 4px; padding: 14px; white-space: pre-wrap;
+    font-family: 'Courier New', monospace; font-size: 0.9em;
+    max-height: 420px; overflow: auto;
+  }
+
+  /* Result */
+  .result-images { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .result-images img { max-width: 360px; border: 1px solid #b8d4e3; border-radius: 6px; background: #fff; }
+  .status { font-size: 0.85em; color: #555; margin-top: 8px; }
+
+  /* TOC */
+  .toc { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 12px 18px; margin: 20px 0; }
+  .toc h3 { margin: 0 0 8px 0; }
+  .toc ul { margin: 0; padding-left: 20px; }
+  .toc a { color: #0066cc; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>🍌 Nano Banana Prompt Builder</h1>
+<p class="lede">Build a parameterized prompt + JSON for <code>gemini-2.5-flash-image</code> (Nano Banana), attach reference images, and run it via <code>/api/nano-banana</code>.</p>
+
+<div class="toc">
+  <h3>On this page</h3>
+  <ul>
+    <li><a href="#images">1. Reference images</a></li>
+    <li><a href="#describe">2. (Optional) Describe image → JSON</a></li>
+    <li><a href="#parameters">3. Attributes</a></li>
+    <li><a href="#prompt">4. Base prompt + JSON</a></li>
+    <li><a href="#preview">5. Preview, copy, and run</a></li>
+    <li><a href="#result">6. Result</a></li>
+  </ul>
+</div>
+
+<div class="info">
+  <strong>💡 Setup:</strong> Requires <code class="code-highlight">GEMINI_API_KEY</code> in <code class="code-highlight">.env.local</code>. Start dev server with <code class="code-highlight">npm run dev -- -p 3002</code> and open <code class="code-highlight">http://localhost:3002/nano-banana.html</code>.
+</div>
+
+<!-- ============================================ -->
+<div id="images" class="section-container usage">
+  <div class="section-header usage">🖼️ 1. Reference images</div>
+  <p>Drop images here or click to browse. These are sent to the API as <code>inline_data</code> parts.</p>
+  <label class="drop-zone" id="dropZone">
+    <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/gif" multiple />
+    <div><strong>📤 Drop images or click to select</strong></div>
+    <div style="font-size:0.85em; margin-top:4px; color:#777;">PNG, JPG, WEBP, GIF — max ~4 MB each recommended</div>
+  </label>
+  <div class="thumb-row" id="thumbs"></div>
+</div>
+
+<!-- ============================================ -->
+<div id="describe" class="section-container">
+  <div class="section-header">🔍 2. (Optional) Describe image → JSON</div>
+  <p>Uses <code>gemini-2.5-flash</code> to reverse-engineer the first reference image into structured JSON. The result fills the JSON field below.</p>
+  <div class="button-row">
+    <button class="btn describe" id="btnDescribe" type="button" aria-label="Describe image into JSON">🔍 Describe first image → JSON</button>
+  </div>
+  <div class="status" id="describeStatus"></div>
+</div>
+
+<!-- ============================================ -->
+<div id="parameters" class="section-container parameters">
+  <div class="section-header parameters">⚙️ 3. Attributes</div>
+  <p>These fields substitute into <code class="code-highlight">{{placeholder}}</code> tokens in the base prompt below.</p>
+
+  <div class="parameter-group">
+    <div class="parameter-input">
+      <label for="p-aspectRatio">Aspect ratio</label>
+      <select id="p-aspectRatio" data-token="aspectRatio">
+        <option value="1:1">1:1 (square)</option>
+        <option value="16:9" selected>16:9 (landscape)</option>
+        <option value="9:16">9:16 (portrait)</option>
+        <option value="4:3">4:3</option>
+        <option value="3:4">3:4</option>
+        <option value="21:9">21:9 (ultrawide)</option>
+      </select>
+    </div>
+    <div class="parameter-input">
+      <label for="p-dimensions">Output dimensions <span class="hint">(hint only — model picks final size)</span></label>
+      <input id="p-dimensions" data-token="dimensions" type="text" value="1920x1080" placeholder="1920x1080" />
+    </div>
+  </div>
+
+  <div class="parameter-group">
+    <div class="parameter-input">
+      <label for="p-style">Style</label>
+      <input id="p-style" data-token="style" type="text" value="photorealistic, cinematic" placeholder="photorealistic, cinematic, oil painting, pop-art, anime..." />
+    </div>
+    <div class="parameter-input">
+      <label for="p-lighting">Lighting</label>
+      <input id="p-lighting" data-token="lighting" type="text" value="golden hour, soft shadows" placeholder="golden hour, studio softbox, dramatic, overcast, neon..." />
+    </div>
+  </div>
+
+  <div class="parameter-group">
+    <div class="parameter-input">
+      <label for="p-camera">Camera angle</label>
+      <input id="p-camera" data-token="camera" type="text" value="wide shot, eye level" placeholder="close-up, wide, aerial, low-angle, over-shoulder..." />
+    </div>
+    <div class="parameter-input">
+      <label for="p-mood">Mood / tone</label>
+      <input id="p-mood" data-token="mood" type="text" value="serene, contemplative" placeholder="serene, energetic, moody, playful..." />
+    </div>
+  </div>
+
+  <div class="parameter-group">
+    <div class="parameter-input">
+      <label for="p-palette">Color palette</label>
+      <input id="p-palette" data-token="palette" type="text" value="warm dusk tones" placeholder="warm, cool, monochrome, pastel, vibrant, custom hex..." />
+    </div>
+    <div class="parameter-input">
+      <label for="p-variations">Variations <span class="hint">(1–4; guidance only)</span></label>
+      <input id="p-variations" data-token="variations" type="number" min="1" max="4" value="1" />
+    </div>
+  </div>
+
+  <div class="parameter-group single">
+    <div class="parameter-input">
+      <label for="p-subject">Subject</label>
+      <input id="p-subject" data-token="subject" type="text" value="a red-and-white striped lighthouse on a wooden pier" placeholder="main subject of the image" />
+    </div>
+  </div>
+
+  <div class="parameter-group single">
+    <div class="parameter-input">
+      <label for="p-setting">Setting / background</label>
+      <input id="p-setting" data-token="setting" type="text" value="calm coastal evening, distant horizon" placeholder="environment, time of day, location" />
+    </div>
+  </div>
+
+  <div class="parameter-group single">
+    <div class="parameter-input">
+      <label for="p-modifications">Modifications from reference</label>
+      <textarea id="p-modifications" data-token="modifications" placeholder="what to change vs. the reference image">brighten the sky, add a warm sunset glow, keep the lighthouse structure unchanged</textarea>
+    </div>
+  </div>
+
+  <div class="parameter-group single">
+    <div class="parameter-input">
+      <label for="p-negative">Negative prompt <span class="hint">(what to avoid)</span></label>
+      <textarea id="p-negative" data-token="negative" placeholder="avoid ...">blurry, low-resolution, extra fingers, distorted geometry, text artifacts</textarea>
+    </div>
+  </div>
+
+  <div class="parameter-group">
+    <div class="parameter-input">
+      <label for="p-seed">Seed <span class="hint">(optional)</span></label>
+      <input id="p-seed" data-token="seed" type="text" placeholder="e.g. 42" />
+    </div>
+    <div class="parameter-input">
+      <label for="p-model">Model</label>
+      <select id="p-model">
+        <option value="gemini-2.5-flash-image" selected>gemini-2.5-flash-image (stable)</option>
+        <option value="gemini-2.5-flash-image-preview">gemini-2.5-flash-image-preview</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<div id="prompt" class="section-container">
+  <div class="section-header">📝 4. Base prompt + JSON</div>
+  <p>Use <code class="code-highlight">{{token}}</code> placeholders — e.g. <code class="code-highlight">{{subject}}</code>, <code class="code-highlight">{{aspectRatio}}</code>. They are substituted live in the preview. <strong>Replace this default with your real prompt.</strong></p>
+
+  <div class="parameter-group single">
+    <div class="parameter-input">
+      <label for="p-basePrompt">Base prompt template</label>
+      <textarea id="p-basePrompt" class="tall" spellcheck="false">Produce an image with these specifications.
+
+Subject: {{subject}}
+Setting: {{setting}}
+Style: {{style}}
+Lighting: {{lighting}}
+Camera: {{camera}}
+Mood: {{mood}}
+Color palette: {{palette}}
+Aspect ratio: {{aspectRatio}}
+Target dimensions: {{dimensions}}
+Variations: {{variations}}
+
+Modifications from reference: {{modifications}}
+
+Avoid: {{negative}}
+
+Use the attached reference image(s) as the starting point. Keep the subject's identity intact unless explicitly modified.</textarea>
+    </div>
+  </div>
+
+  <div class="parameter-group single">
+    <div class="parameter-input">
+      <label for="p-jsonData">JSON specification <span class="hint">(merged after prompt; edit freely or fill from the Describe button above)</span></label>
+      <textarea id="p-jsonData" class="tall" spellcheck="false">{
+  "subject": "{{subject}}",
+  "setting": "{{setting}}",
+  "style": "{{style}}",
+  "lighting": "{{lighting}}",
+  "camera_angle": "{{camera}}",
+  "mood": "{{mood}}",
+  "color_palette": "{{palette}}",
+  "aspect_ratio": "{{aspectRatio}}",
+  "dimensions": "{{dimensions}}",
+  "modifications": "{{modifications}}",
+  "negative_prompt": "{{negative}}",
+  "variations": {{variations}},
+  "seed": "{{seed}}"
+}</textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<div id="preview" class="section-container">
+  <div class="section-header">👁️ 5. Preview, copy, and run</div>
+
+  <h3>Final prompt + JSON (live)</h3>
+  <div class="preview-block" id="mergedPreview"></div>
+
+  <div class="button-row">
+    <button class="btn template" id="btnCopyTemplate" type="button" title="Copy the original template prompt + original JSON (no substitutions)">📄 Copy template</button>
+    <button class="btn" id="btnCopyMerged" type="button" title="Copy the substituted prompt AND the substituted JSON">📋 Copy customized (prompt + JSON)</button>
+    <button class="btn run" id="btnRun" type="button" title="POST everything to /api/nano-banana and render the result image">🍌 Run via Nano Banana API</button>
+  </div>
+  <div class="status" id="runStatus"></div>
+</div>
+
+<!-- ============================================ -->
+<div id="result" class="section-container output">
+  <div class="section-header output">📊 6. Result</div>
+  <div id="resultEmpty" class="status">No result yet. Attach at least one reference image, fill the attributes, and click <strong>🍌 Run via Nano Banana API</strong>.</div>
+  <div class="result-images" id="resultImages"></div>
+  <div id="resultText" style="margin-top:12px;"></div>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const state = { images: [] }; // [{ mimeType, data(base64), name, dataUrl }]
+
+  // ---------- Image upload ----------
+  const dropZone = $('dropZone');
+  const fileInput = $('fileInput');
+  const thumbs = $('thumbs');
+
+  function readFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        const base64 = dataUrl.split(',')[1] || '';
+        resolve({ mimeType: file.type || 'image/png', data: base64, name: file.name, dataUrl });
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function addFiles(files) {
+    for (const f of files) {
+      if (!f.type.startsWith('image/')) continue;
+      const img = await readFile(f);
+      state.images.push(img);
+    }
+    renderThumbs();
+  }
+
+  function renderThumbs() {
+    thumbs.innerHTML = '';
+    state.images.forEach((img, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'thumb';
+      wrap.innerHTML = `<img alt="${img.name}" src="${img.dataUrl}" /><button class="remove" title="Remove" data-i="${i}" aria-label="Remove image">×</button>`;
+      thumbs.appendChild(wrap);
+    });
+    thumbs.querySelectorAll('.remove').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const i = Number(e.currentTarget.getAttribute('data-i'));
+        state.images.splice(i, 1);
+        renderThumbs();
+      });
+    });
+  }
+
+  fileInput.addEventListener('change', (e) => addFiles(e.target.files));
+  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault(); dropZone.classList.remove('dragover');
+    if (e.dataTransfer?.files) addFiles(e.dataTransfer.files);
+  });
+
+  // ---------- Token substitution + preview ----------
+  function collectTokens() {
+    const tokens = {};
+    document.querySelectorAll('[data-token]').forEach(el => {
+      tokens[el.getAttribute('data-token')] = el.value;
+    });
+    return tokens;
+  }
+
+  function substitute(template, tokens) {
+    return template.replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (_, k) => (tokens[k] ?? ''));
+  }
+
+  function currentMerged() {
+    const tokens = collectTokens();
+    const prompt = substitute($('p-basePrompt').value, tokens);
+    const json = substitute($('p-jsonData').value, tokens);
+    return { prompt, json, tokens };
+  }
+
+  function updatePreview() {
+    const { prompt, json } = currentMerged();
+    $('mergedPreview').textContent = `--- PROMPT ---\n${prompt}\n\n--- JSON ---\n${json}`;
+  }
+
+  document.querySelectorAll('[data-token], #p-basePrompt, #p-jsonData').forEach(el => {
+    el.addEventListener('input', updatePreview);
+    el.addEventListener('change', updatePreview);
+  });
+  updatePreview();
+
+  // ---------- Copy buttons ----------
+  function flashCopied(btn, originalText) {
+    btn.classList.add('copied');
+    const prev = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = originalText ?? prev; }, 1800);
+  }
+
+  async function copyText(text, btn, label) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    flashCopied(btn, label);
+  }
+
+  $('btnCopyTemplate').addEventListener('click', (e) => {
+    const text = `--- PROMPT (TEMPLATE) ---\n${$('p-basePrompt').value}\n\n--- JSON (TEMPLATE) ---\n${$('p-jsonData').value}`;
+    copyText(text, e.currentTarget, '📄 Copy template');
+  });
+
+  $('btnCopyMerged').addEventListener('click', (e) => {
+    const { prompt, json } = currentMerged();
+    const text = `--- PROMPT ---\n${prompt}\n\n--- JSON ---\n${json}`;
+    copyText(text, e.currentTarget, '📋 Copy customized (prompt + JSON)');
+  });
+
+  // ---------- Describe image → JSON ----------
+  $('btnDescribe').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    const status = $('describeStatus');
+    if (state.images.length === 0) {
+      status.innerHTML = '<div class="warning">Attach at least one image first.</div>';
+      return;
+    }
+    btn.disabled = true;
+    status.innerHTML = '<div class="info">🔍 Describing image…</div>';
+    try {
+      const res = await fetch('/api/nano-banana', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'describe',
+          images: [{ mimeType: state.images[0].mimeType, data: state.images[0].data }],
+        }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || payload.detail || `HTTP ${res.status}`);
+      const text = (payload.text || '').trim();
+      if (text) {
+        $('p-jsonData').value = text;
+        updatePreview();
+        status.innerHTML = `<div class="success">✅ JSON filled (${payload.elapsedMs ?? '?'}ms).</div>`;
+      } else {
+        status.innerHTML = '<div class="warning">Model returned empty text.</div>';
+      }
+    } catch (err) {
+      status.innerHTML = `<div class="error-box">❌ ${String(err.message || err)}</div>`;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ---------- Run via API ----------
+  $('btnRun').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    const status = $('runStatus');
+    const { prompt, json } = currentMerged();
+    if (!prompt.trim()) {
+      status.innerHTML = '<div class="warning">Prompt is empty.</div>';
+      return;
+    }
+    btn.disabled = true;
+    status.innerHTML = '<div class="info">🍌 Calling Gemini…</div>';
+    $('resultEmpty').style.display = 'none';
+    $('resultImages').innerHTML = '';
+    $('resultText').innerHTML = '';
+    try {
+      const res = await fetch('/api/nano-banana', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generate',
+          model: $('p-model').value,
+          prompt,
+          json,
+          images: state.images.map(i => ({ mimeType: i.mimeType, data: i.data })),
+        }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || payload.detail || `HTTP ${res.status}`);
+      const imgs = payload.images || [];
+      imgs.forEach((im, idx) => {
+        const el = document.createElement('img');
+        el.alt = `result-${idx}`;
+        el.src = `data:${im.mimeType};base64,${im.data}`;
+        $('resultImages').appendChild(el);
+      });
+      if (payload.text) {
+        $('resultText').innerHTML = `<div class="info"><strong>Model text:</strong><br><pre style="white-space:pre-wrap;margin:6px 0 0 0;">${payload.text.replace(/[<&>]/g, c => ({'<':'&lt;','&':'&amp;','>':'&gt;'}[c]))}</pre></div>`;
+      }
+      status.innerHTML = `<div class="success">✅ Done in ${payload.elapsedMs ?? '?'}ms — ${imgs.length} image(s).</div>`;
+      if (imgs.length === 0) {
+        $('resultEmpty').style.display = 'block';
+        $('resultEmpty').innerHTML = '<div class="warning">Model returned 0 images. Try adjusting the prompt or model.</div>';
+      }
+    } catch (err) {
+      status.innerHTML = `<div class="error-box">❌ ${String(err.message || err)}</div>`;
+      $('resultEmpty').style.display = 'block';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
