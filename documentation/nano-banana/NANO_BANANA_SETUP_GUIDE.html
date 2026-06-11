@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Nano Banana (Gemini 2.5 Flash Image) setup guide — start the dev server, configure the API key, and run the prompt builder." />
+<meta name="description" content="Nano Banana image-tools setup — quick start, no Clerk, port 3002, GEMINI_API_KEY, hero collage ffmpeg scripts, and troubleshooting (hydration, Norton pip)." />
 <title>Nano Banana — Setup & Start Guide</title>
 <style>
   * { box-sizing: border-box; }
@@ -140,25 +140,72 @@
 
 <h1>🍌 Nano Banana — Setup &amp; Start Guide</h1>
 <p class="lede">
-  How to start the Next.js dev server on port <code>3002</code>, configure the
-  <code>GEMINI_API_KEY</code>, and open the Nano Banana prompt builder at the site root.
+  This repo is an <strong>image-editing / AI tools</strong> workspace. The default landing page is the
+  <strong>Nano Banana Prompt Builder</strong> at <code>/</code> — not the legacy event-site home.
+  Start the dev server on port <code>3002</code>, set <code>GEMINI_API_KEY</code>, and open
+  <code>http://localhost:3002</code>. <strong>Clerk authentication is not required</strong> for this workflow.
 </p>
 
 <div class="toc">
   <h3>Table of Contents</h3>
   <ul>
-    <li><a href="#overview">1. Overview</a></li>
-    <li><a href="#env">2. Environment configuration (<code>.env.local</code>)</a></li>
-    <li><a href="#start">3. Starting the dev server (port 3002)</a></li>
-    <li><a href="#access">4. Accessing the app</a></li>
-    <li><a href="#api">5. API endpoint reference (<code>/api/nano-banana</code>)</a></li>
-    <li><a href="#cli">6. Standalone CLI test script</a></li>
-    <li><a href="#restore">7. Restoring the previous home page</a></li>
+    <li><a href="#quickstart">1. Quick start (3 steps)</a></li>
+    <li><a href="#overview">2. Overview</a></li>
+    <li><a href="#env">3. Environment configuration (<code>.env.local</code>)</a></li>
+    <li><a href="#start">4. Starting the dev server (port 3002)</a></li>
+    <li><a href="#access">5. Accessing the app &amp; URLs</a></li>
+    <li><a href="#no-clerk">6. Image-tools mode (no Clerk)</a></li>
+    <li><a href="#api">7. API endpoint reference (<code>/api/nano-banana</code>)</a></li>
+    <li><a href="#cli">8. Standalone CLI test script</a></li>
+    <li><a href="#image-scripts">9. Image utility scripts (ffmpeg / Node)</a></li>
+    <li><a href="#troubleshooting">10. Troubleshooting</a></li>
+    <li><a href="#restore">11. Restoring the previous home page</a></li>
   </ul>
 </div>
 
 <!-- ============================================ -->
-<h2 id="overview">1. Overview</h2>
+<h2 id="quickstart">1. Quick start (3 steps)</h2>
+<div class="section-container output">
+  <div class="section-header output">🚀 Run the project and open the tool</div>
+  <ol>
+    <li><strong>Create <code>.env.local</code></strong> at the project root with your Gemini key (see <a href="#env">section 3</a>).</li>
+    <li><strong>Start the dev server</strong> from the repo root (PowerShell or terminal):
+      <div class="command-block verify" data-command-type="verify"
+           data-command-base="npm run dev --"
+           data-template-command="npm run dev -- -p 3002">
+        <div class="command-header">
+          <span class="command-type">Recommended start command</span>
+          <div class="command-header-buttons">
+            <button class="copy-button-template" onclick="copyTemplateCommand(this, 'quick-dev')" title="Copy template">📄 Template</button>
+            <button class="copy-button" onclick="copyCommand(this, 'quick-dev')" title="Copy">📋 Copy</button>
+          </div>
+        </div>
+        <div class="command-content" id="quick-dev">npm run dev -- -p 3002</div>
+        <div class="command-single-line">
+          <div class="command-single-line-label">Windows Single-Line:</div>
+          <code id="quick-dev-single-code">npm run dev -- -p 3002</code>
+        </div>
+      </div>
+      <div class="warning">
+        <strong>⚠️ Port flag syntax:</strong> Use <code>npm run dev -- -p 3002</code> (note the <code>--</code> before <code>-p</code>).
+        <code>npm run dev --p -3002</code> is <em>not</em> valid and will not set the port correctly.
+      </div>
+    </li>
+    <li><strong>Open the prompt builder</strong> in your browser:
+      <ul>
+        <li>Primary: <code>http://localhost:3002/</code> (Next.js React UI)</li>
+        <li>Fallback: <code>http://localhost:3002/nano-banana.html</code> (static HTML, no React)</li>
+      </ul>
+    </li>
+  </ol>
+  <div class="success">
+    <strong>✅ You do not need</strong> Clerk keys, tenant IDs, or backend API URLs for the Nano Banana workflow.
+    Only <code>GEMINI_API_KEY</code> is required.
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="overview">2. Overview</h2>
 <div class="section-container">
   <p>
     The Nano Banana prompt builder is served as the <strong>default home page</strong> of this Next.js app
@@ -176,7 +223,7 @@
 </div>
 
 <!-- ============================================ -->
-<h2 id="env">2. Environment configuration</h2>
+<h2 id="env">3. Environment configuration</h2>
 <div class="section-container parameters">
   <div class="section-header parameters">⚙️ Required environment variable</div>
   <p>Add the following line to <code>.env.local</code> at the project root:</p>
@@ -221,7 +268,7 @@
 </div>
 
 <!-- ============================================ -->
-<h2 id="start">3. Starting the dev server (port 3002)</h2>
+<h2 id="start">4. Starting the dev server (port 3002)</h2>
 <div class="section-container usage">
   <div class="section-header usage">📋 Start command</div>
 
@@ -330,7 +377,7 @@
 </div>
 
 <!-- ============================================ -->
-<h2 id="access">4. Accessing the app</h2>
+<h2 id="access">5. Accessing the app &amp; URLs</h2>
 <div class="section-container output">
   <div class="section-header output">📊 URLs</div>
   <table>
@@ -338,19 +385,46 @@
       <tr><th>URL</th><th>What it is</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>http://localhost:3002</code></td><td>Nano Banana prompt builder (the new default home)</td></tr>
-      <tr><td><code>http://localhost:3002/nano-banana.html</code></td><td>Standalone static HTML fallback (same UI, served from <code>public/</code>)</td></tr>
-      <tr><td><code>http://localhost:3002/api/nano-banana</code></td><td>POST endpoint called by the page — see next section</td></tr>
+      <tr><td><code>http://localhost:3002/</code></td><td><strong>Landing page</strong> — Nano Banana prompt builder (<code>src/app/page.tsx</code>). This is the main entry for image editing.</td></tr>
+      <tr><td><code>http://localhost:3002/nano-banana.html</code></td><td>Static HTML fallback (same UI, no React hydration — useful if browser extensions cause console warnings)</td></tr>
+      <tr><td><code>POST http://localhost:3002/api/nano-banana</code></td><td>Server API used by the page (generate / describe) — public, no sign-in required</td></tr>
+      <tr><td><code>http://localhost:3002/home-backup</code></td><td><em>Not image tools</em> — legacy MCEFEE event homepage (only if you need the old site)</td></tr>
     </tbody>
   </table>
 
+  <div class="info">
+    <strong>ℹ️ No separate <code>/tools</code> route:</strong> The site root <code>/</code> <em>is</em> the tools hub for this project.
+    CLI scripts (collage split, squad split, etc.) run in the terminal — see <a href="#image-scripts">section 9</a>.
+  </div>
+
   <div class="success">
-    <strong>✅ Smoke test:</strong> Open <code>http://localhost:3002</code>, drop a reference image, fill the attributes, click <strong>🍌 Run via Nano Banana API</strong>. A generated image appears inline on success.
+    <strong>✅ Smoke test:</strong> Open <code>http://localhost:3002/</code>, drop a reference image, fill the attributes, click <strong>🍌 Run via Nano Banana API</strong>. A generated image appears inline on success.
   </div>
 </div>
 
 <!-- ============================================ -->
-<h2 id="api">5. API endpoint reference</h2>
+<h2 id="no-clerk">6. Image-tools mode (no Clerk)</h2>
+<div class="section-container usage">
+  <div class="section-header usage">🔓 Authentication not required</div>
+  <p>
+    This workspace was repurposed for <strong>image editing and AI tooling</strong>. You can run it locally
+    without Clerk, Stripe, tenant IDs, or the Rust backend API.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Variable / service</th><th>Required for Nano Banana?</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>GEMINI_API_KEY</code></td><td>✅ Yes</td><td>Only required env var for the prompt builder</td></tr>
+      <tr><td><code>NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY</code></td><td>❌ No</td><td>Leave unset for local image-tools use</td></tr>
+      <tr><td><code>NEXT_PUBLIC_TENANT_ID</code>, backend JWT, etc.</td><td>❌ No</td><td>Only needed for legacy event-admin routes</td></tr>
+    </tbody>
+  </table>
+  <p>When Clerk keys are absent, the app skips <code>ClerkProvider</code> and satellite sync components so the home page loads without sign-in. The Nano Banana API route is listed as a <strong>public route</strong> in <code>src/middleware.ts</code>.</p>
+</div>
+
+<!-- ============================================ -->
+<h2 id="api">7. API endpoint reference</h2>
 <div class="section-container">
   <div class="section-header">🔌 <code>POST /api/nano-banana</code></div>
   <p>Source: <span class="script-name">src/app/api/nano-banana/route.ts</span></p>
@@ -385,7 +459,7 @@
 </div>
 
 <!-- ============================================ -->
-<h2 id="cli">6. Standalone CLI test script</h2>
+<h2 id="cli">8. Standalone CLI test script</h2>
 <div class="section-container">
   <div class="section-header">🧪 Test the Gemini key without the UI</div>
   <p>A Node script exists at <span class="script-name">scripts/nano-banana-test.mjs</span> for testing the API key end-to-end from the terminal:</p>
@@ -424,7 +498,95 @@
 </div>
 
 <!-- ============================================ -->
-<h2 id="restore">7. Restoring the previous home page</h2>
+<h2 id="image-scripts">9. Image utility scripts (ffmpeg / Node)</h2>
+<div class="section-container parameters">
+  <div class="section-header parameters">🖼️ Terminal scripts (not web pages)</div>
+  <p>These scripts prepare or test images outside the browser UI. They do <strong>not</strong> start a web server.</p>
+
+  <h3>Split hero collage → three 5:2 slideshow images (ffmpeg only)</h3>
+  <p>
+    Splits <code>public/images/hero_section/default_cloud_images_collage.webp</code> (1920×1920, three horizontal bands)
+    into three <strong>2000×800</strong> WebP files. Uses <strong>ffmpeg only</strong> — no Python, no <code>pip install</code>
+    (avoids Norton or antivirus blocking <code>pip.exe</code>).
+  </p>
+
+  <div class="command-block" data-command-type="setup"
+       data-command-base="pwsh -File scripts/split-hero-cloud-collage.ps1"
+       data-template-command="pwsh -File scripts/split-hero-cloud-collage.ps1">
+    <div class="command-header">
+      <span class="command-type">Hero collage split (PowerShell + ffmpeg)</span>
+      <div class="command-header-buttons">
+        <button class="copy-button-template" onclick="copyTemplateCommand(this, 'hero-split')" title="Copy template">📄 Template</button>
+        <button class="copy-button" onclick="copyCommand(this, 'hero-split')" title="Copy">📋 Copy</button>
+      </div>
+    </div>
+    <div class="command-content" id="hero-split">pwsh -File scripts/split-hero-cloud-collage.ps1</div>
+    <div class="command-single-line">
+      <div class="command-single-line-label">Windows Single-Line:</div>
+      <code id="hero-split-single-code">pwsh -File scripts/split-hero-cloud-collage.ps1</code>
+    </div>
+  </div>
+
+  <div class="parameters-list">
+    <p><strong>Output files</strong> (written to <code>public/images/hero_section/</code>):</p>
+    <ul>
+      <li><code>default_cloud_hero_image_1.webp</code> — Hero Image 1 (lake / pier)</li>
+      <li><code>default_cloud_hero_image_2.webp</code> — Hero Image 2 (mountain hiker)</li>
+      <li><code>default_cloud_hero_image_3.webp</code> — Hero Image 3 (forest path)</li>
+    </ul>
+    <p><strong>Spec:</strong> 5:2 landscape (2000×800), center-cropped from each collage band. Requires <code>ffmpeg</code> on <code>PATH</code>.</p>
+  </div>
+
+  <h3>Other useful scripts</h3>
+  <table>
+    <thead>
+      <tr><th>Command</th><th>Script</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>node scripts/nano-banana-test.mjs</code></td><td><span class="script-name">scripts/nano-banana-test.mjs</span></td><td>CLI Gemini image edit test → <code>nano-banana-output/</code></td></tr>
+      <tr><td><code>npm run split-squad</code></td><td><span class="script-name">scripts/split-squad-collage.mjs</span></td><td>Split squad contact-sheet collages into per-member JPEGs (needs <code>sharp</code>)</td></tr>
+      <tr><td><code>pwsh -File scripts/merge-rb-hero-mood-board.ps1</code></td><td><span class="script-name">scripts/merge-rb-hero-mood-board.ps1</span></td><td>Build 1920×1080 mood board from R&amp;B hero assets (ffmpeg)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============================================ -->
+<h2 id="troubleshooting">10. Troubleshooting</h2>
+<div class="section-container">
+  <div class="section-header">🔧 Common issues and fixes</div>
+
+  <h3>Clerk error on <code>/</code> — <code>useAuth can only be used within ClerkProvider</code></h3>
+  <p><strong>Symptom:</strong> <code>GET / 500</code> with Clerk <code>useAuth</code> error in <code>ClerkSyncUrlCleanup.tsx</code>.</p>
+  <p><strong>Cause:</strong> Clerk satellite cleanup components ran even when <code>NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY</code> was unset.</p>
+  <p><strong>Fix (already in repo):</strong> <code>src/app/layout.tsx</code> only mounts Clerk sync components inside <code>ClerkProvider</code> when a Clerk key exists. <code>/api/nano-banana</code> is a public route in <code>src/middleware.ts</code>.</p>
+  <div class="success"><strong>✅ For image-tools use:</strong> Omit all Clerk env vars and restart <code>npm run dev</code>.</div>
+
+  <h3>React hydration mismatch — <code>fdprocessedid</code> on buttons/inputs</h3>
+  <p><strong>Symptom:</strong> Console warning: “A tree hydrated but some attributes… didn't match” with <code>fdprocessedid="…"</code> on form controls.</p>
+  <p><strong>Cause:</strong> Browser extensions (often <strong>Norton Safe Web</strong>, password managers, or form fillers) inject attributes before React hydrates. Not an app bug.</p>
+  <p><strong>Fixes:</strong></p>
+  <ul>
+    <li><strong>Built-in:</strong> <code>src/app/page.tsx</code> shows a brief “Loading…” shell until client mount, then renders the form (avoids SSR/hydration on inputs).</li>
+    <li><strong>Workaround:</strong> Use <code>http://localhost:3002/nano-banana.html</code> (static HTML, no React).</li>
+    <li><strong>Extension:</strong> Disable Norton/form extensions for <code>localhost</code>, or test in a private/incognito window.</li>
+  </ul>
+
+  <h3><code>pip.exe</code> blocked by Norton (Python image scripts)</h3>
+  <p><strong>Symptom:</strong> <code>pip install pillow</code> or similar blocked by antivirus.</p>
+  <p><strong>Workaround:</strong> Use <strong>ffmpeg</strong> scripts instead (e.g. <a href="#image-scripts">hero collage split</a>). For the web UI, only <code>npm run dev</code> and <code>GEMINI_API_KEY</code> are needed — no Python.</p>
+
+  <h3>Port already in use</h3>
+  <p>If port 3000 is busy, Next.js may pick another port (e.g. 3002). Check the terminal line <code>Local: http://localhost:XXXX</code> and use that URL, or force a port with <code>npm run dev -- -p 3002</code>.</p>
+
+  <h3>API returns 401 or “GEMINI_API_KEY is not set”</h3>
+  <ul>
+    <li>Add <code>GEMINI_API_KEY=…</code> to <code>.env.local</code> and restart the dev server.</li>
+    <li>Get a key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">aistudio.google.com/apikey</a>.</li>
+  </ul>
+</div>
+
+<!-- ============================================ -->
+<h2 id="restore">11. Restoring the previous home page</h2>
 <div class="section-container">
   <div class="section-header">↩️ If you want the old home back</div>
   <p>The original home (a one-line renderer for <code>CircleHome6Page</code>) was saved as <code>src/app/page.circle-home.tsx.bak</code>. To restore:</p>

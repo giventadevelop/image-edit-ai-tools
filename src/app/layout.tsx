@@ -416,8 +416,6 @@ export default async function RootLayout({
           </ClerkProvider>
           ) : (
           <>
-          <ClerkSyncUrlCleanup />
-          <ClerkSatelliteSyncGate />
           <TenantIdInjector />
           <TrpcProvider>
             <TenantSettingsProvider>

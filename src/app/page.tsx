@@ -241,12 +241,23 @@ export default function HomePage() {
     }
   };
 
-  // Suppress hydration mismatch by rendering nothing until mounted — optional guard for client-only UX
+  // Defer interactive UI until after hydration so browser extensions (e.g. Norton fdprocessedid on
+  // buttons/inputs) cannot mismatch server HTML with client DOM.
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
   const setParam = (key: keyof Params, value: string) =>
     setParams(prev => ({ ...prev, [key]: value }));
+
+  if (!mounted) {
+    return (
+      <main className="nb-main">
+        <style jsx>{styles}</style>
+        <h1>🍌 Nano Banana Prompt Builder</h1>
+        <p className="lede">Loading…</p>
+      </main>
+    );
+  }
 
   return (
     <main className="nb-main">
@@ -419,7 +430,7 @@ export default function HomePage() {
       <section id="preview" className="section-container">
         <div className="section-header">👁️ 5. Preview, copy, and run</div>
         <h3>Final prompt + JSON (live)</h3>
-        <div className="preview-block">{mounted ? `--- PROMPT ---\n${merged.prompt}\n\n--- JSON ---\n${merged.json}` : 'Loading…'}</div>
+        <div className="preview-block">{`--- PROMPT ---\n${merged.prompt}\n\n--- JSON ---\n${merged.json}`}</div>
 
         <div className="button-row">
           <button className="btn template" type="button" onClick={onCopyTemplate}>
