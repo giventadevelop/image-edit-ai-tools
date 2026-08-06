@@ -78,3 +78,9 @@ TestSprite/admin-tests/screenshots/
 
 # All screenshot folders (catch-all pattern for any screenshots directory)
 **/screenshots/
+
+# Local AI image outputs
+nano-banana-output/
+
+# Oversized local media (GitHub 100MB limit)
+public/images/parsippany-malayalees/modify_aug_06/Spectrum_Ad.mp4
