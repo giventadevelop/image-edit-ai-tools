@@ -23,37 +23,48 @@ type Params = {
 const DEFAULT_PARAMS: Params = {
   aspectRatio: '16:9',
   dimensions: '1920x1080',
-  style: 'photorealistic, cinematic',
-  lighting: 'golden hour, soft shadows',
-  camera: 'wide shot, eye level',
-  mood: 'serene, contemplative',
-  palette: 'warm dusk tones',
+  style: 'festive cultural event poster, illustrative top half, photographic sponsor ad bottom',
+  lighting: 'bright daylight illustration; clean commercial photo lighting on sponsor block',
+  camera: 'full poster flat lay / graphic design layout, landscape',
+  mood: 'celebratory Onam heritage, professional title sponsor credit',
+  palette: 'marigold orange/yellow, cream Kerala gold borders, tropical greens, Spectrum Auto blues',
   variations: '1',
-  subject: 'a red-and-white striped lighthouse on a wooden pier',
-  setting: 'calm coastal evening, distant horizon',
-  modifications: 'brighten the sky, add a warm sunset glow, keep the lighthouse structure unchanged',
-  negative: 'blurry, low-resolution, extra fingers, distorted geometry, text artifacts',
+  subject: 'Parsippany Onam 2026 event poster with Spectrum Auto as Title Sponsor',
+  setting: 'festive Kerala Onam illustration above; Spectrum Auto certified collision center ad below',
+  modifications: `Edit the attached main poster. Do not crop, truncate, stretch, or resize the overall canvas — keep the full top and bottom of the poster exactly as they are. Keep every part of the image identical except for the two changes below.
+
+CHANGE 1 — REPLACE TOP TITLE / HEADER SECTION ONLY:
+- Replace ONLY the existing top header bar (the area that currently shows the old Kerala Ghoshan Sah Samiti logo, "Powered By / SPECTRUM AUTO", and "PRESENTING") with the exact design from the attached corrected header reference image.
+- The replacement header must match the reference: circular Kerala Center of New Jersey logo with palm tree and houseboat, "KERALA • CENTER OF NEW JERSEY •" text, dark green "TITLE SPONSOR" pill badge, Spectrum Auto interlocking blue-circle logo, "SPECTRUM AUTO", and tagline "Exceeding Perfection".
+- Blend the new header into the poster so edges align cleanly under the marigold garland / top of the illustration. Do not cut off the garland, title "PARSIPPANY ONAM 2026", family illustration, or anything below the header.
+- Do not invent a different logo set. Use the attached header reference as the source of truth for that top strip only.
+
+CHANGE 2 — MIDDLE DIVIDER TEXT ONLY:
+- Location: the narrow beige/cream band between the event details card and the Spectrum Auto advertisement.
+- Current text: "Best compliments from our sponsor"
+- Change exactly to: "Best compliments from our Title Sponsor"
+- Make that line larger (about 30–50% bigger) and bolder / heavier weight so it reads as a clear heading.
+- Keep it centered on one line; keep the small flower icons on both sides; do not wrap, clip, or overlap the icons.
+- Keep the same dark serif style and color family; only enlarge, bold, and reword.
+
+DO NOT CHANGE:
+- Overall poster height/width (no truncation of top or bottom)
+- "PARSIPPANY ONAM 2026" main title and tagline
+- Onam illustration, family, boat, pookalam, date box, QR code
+- Entire Spectrum Auto bottom advertisement (building, cars, OEM logos, insurance logos, addresses, phones)
+- Any other text or layout outside the top header strip and the middle divider line
+
+Clean, sharp, print-ready result. No watermarks. No blurry text. No misspellings.`,
+  negative: 'cropped edges, truncated top or bottom, wrong Kerala logo, leftover Powered By text, misspelled Title Sponsor, thin/light text, wrapped divider text, altered Spectrum Auto ad, new watermarks, blurry text',
   seed: '',
 };
 
-const DEFAULT_PROMPT = `Produce an image with these specifications.
-
-Subject: {{subject}}
-Setting: {{setting}}
-Style: {{style}}
-Lighting: {{lighting}}
-Camera: {{camera}}
-Mood: {{mood}}
-Color palette: {{palette}}
-Aspect ratio: {{aspectRatio}}
-Target dimensions: {{dimensions}}
-Variations: {{variations}}
-
-Modifications from reference: {{modifications}}
+/** Edit-first template: Preview = full Higgsfield-ready modifications text + avoid line + JSON. */
+const DEFAULT_PROMPT = `{{modifications}}
 
 Avoid: {{negative}}
 
-Use the attached reference image(s) as the starting point. Keep the subject's identity intact unless explicitly modified.`;
+Use the attached reference image(s) as the starting point. Apply only the required changes above.`;
 
 const DEFAULT_JSON = `{
   "subject": "{{subject}}",
@@ -65,7 +76,50 @@ const DEFAULT_JSON = `{
   "color_palette": "{{palette}}",
   "aspect_ratio": "{{aspectRatio}}",
   "dimensions": "{{dimensions}}",
-  "modifications": "{{modifications}}",
+  "modifications": "Replace top header with Kerala Center of New Jersey + TITLE SPONSOR Spectrum Auto reference strip; change middle divider to 'Best compliments from our Title Sponsor' larger and bolder",
+  "preserve": "Full canvas (no crop); Onam illustration; PARSIPPANY ONAM 2026 title/tagline; date box; QR; entire Spectrum Auto bottom ad",
+  "reference_images": ["main poster", "corrected top header strip"],
+  "negative_prompt": "{{negative}}",
+  "variations": {{variations}},
+  "seed": "{{seed}}"
+}`;
+
+/** Matches documentation/nano-banana/HIGGSFIELD_REPLACE_BOTTOM_WITH_ROY_MATHEW.txt */
+const ROY_MATHEW_MODIFICATIONS = `Composite the two attached images into one final poster.
+
+KEEP UNCHANGED (exact, no alteration):
+- Everything from the top of the poster down through and including the middle divider band that says "Best compliments from our Silver Sponsor" (including the side flower icons and horizontal lines).
+- Do not change "PARSIPPANY ONAM 2026", the tagline, Onam illustration, family, boat, pookalam, Kathakali face, date/time/location card, or QR code.
+- Do not crop, truncate, stretch, or resize the top portion. Keep its content, colors, layout, and text exactly as in image 1.
+
+REPLACE ONLY THE BOTTOM SECTION:
+- Remove the entire area BELOW the Silver Sponsor divider (the dark blue Kurian Seethakunnan / Anish contact block and the current portrait photo).
+- Insert image 2 (Roy Mathew / BUY-INVEST-SELL / Prime Homes & Estates ad) as the new bottom section immediately under that divider.
+- The replacement panel must span the FULL WIDTH of the main poster (edge to edge, same width as the Onam section above).
+- Preserve ALL content of image 2 with no loss: "BUY-INVEST-SELL", "I CAN ASSIST!", phone numbers, website, PHE / Prime Homes & Estates logo, Equal Housing / REALTOR / MLS icons, Roy Mathew portrait, floral tie, white name plate "ROY MATHEW", dark charcoal background, and white rounded border.
+- Do not crop letters, logos, or the face. Scale the panel to fit the poster width while keeping aspect ratio of the ad content readable; if height must grow, allow the overall poster to become taller rather than squeezing or clipping image 2.
+- Align the top edge of the Roy Mathew panel cleanly against the bottom edge of the Silver Sponsor divider with no gap, no overlap onto the divider text, and no leftover Anish/Sotheby's content showing through.
+
+OUTPUT:
+- One seamless vertical poster: Onam top (unchanged) + Silver Sponsor divider (unchanged) + Roy Mathew ad (full width, intact).
+- Print-ready, sharp text, no watermarks, no blur, no extra text or logos.`;
+
+const ROY_MATHEW_NEGATIVE =
+  'cropped Roy Mathew ad, missing phone numbers, cut-off BUY-INVEST-SELL, leftover Anish/Sotheby block, altered Onam artwork, changed divider text, gaps or seams, stretched faces, blurry text, watermarks';
+
+const ROY_MATHEW_JSON = `{
+  "subject": "Parsippany Onam 2026 poster with Roy Mathew / Prime Homes & Estates as bottom sponsor panel",
+  "setting": "festive Kerala Onam illustration above; Silver Sponsor divider; Roy Mathew BUY-INVEST-SELL ad below",
+  "style": "festive cultural event poster composited with photographic realtor ad",
+  "lighting": "bright daylight illustration above; clean commercial photo lighting on Roy Mathew panel",
+  "camera_angle": "full poster flat lay / graphic design layout, vertical",
+  "mood": "celebratory Onam heritage, professional realtor sponsorship",
+  "color_palette": "marigold orange/yellow, cream borders, tropical greens, charcoal Roy Mathew panel",
+  "aspect_ratio": "{{aspectRatio}}",
+  "dimensions": "{{dimensions}}",
+  "modifications": "Keep Onam top + Silver Sponsor divider unchanged; replace only content below divider with full-width Roy Mathew / Prime Homes ad from image 2",
+  "preserve": "PARSIPPANY ONAM 2026 title/tagline; Onam art; date/QR; Best compliments from our Silver Sponsor divider; all Roy Mathew ad text/logos/face",
+  "reference_images": ["main Onam poster (image 1)", "Roy Mathew Prime Homes ad (image 2)"],
   "negative_prompt": "{{negative}}",
   "variations": {{variations}},
   "seed": "{{seed}}"
@@ -102,6 +156,7 @@ export default function HomePage() {
   const [jsonData, setJsonData] = useState<string>(DEFAULT_JSON);
   const [model, setModel] = useState<string>('gemini-2.5-flash-image');
   const [describeStatus, setDescribeStatus] = useState<Status>({ kind: 'idle' });
+  const [expandStatus, setExpandStatus] = useState<Status>({ kind: 'idle' });
   const [runStatus, setRunStatus] = useState<Status>({ kind: 'idle' });
   const [resultImages, setResultImages] = useState<InlineImage[]>([]);
   const [resultText, setResultText] = useState<string>('');
@@ -169,6 +224,41 @@ export default function HomePage() {
     void copyText(text, 'merged', '📋 Copy customized (prompt + JSON)');
   };
 
+  const loadOnamHiggsfieldPreset = () => {
+    setParams({ ...DEFAULT_PARAMS });
+    setBasePrompt(DEFAULT_PROMPT);
+    setJsonData(DEFAULT_JSON);
+    setDescribeStatus({
+      kind: 'success',
+      message:
+        '✅ Loaded Title Sponsor / header-swap preset (matches documentation/nano-banana/HIGGSFIELD_REPLACE_TOP_HEADER_AND_TITLE_SPONSOR_TEXT.txt). Check section 5 Preview for PROMPT + JSON.',
+    });
+  };
+
+  const loadRoyMathewBottomPreset = () => {
+    setParams(prev => ({
+      ...prev,
+      aspectRatio: '9:16',
+      dimensions: '1080x1920',
+      style: 'festive cultural event poster composited with photographic realtor ad',
+      lighting: 'bright daylight illustration above; clean commercial photo lighting on Roy Mathew panel',
+      camera: 'full poster flat lay / graphic design layout, vertical',
+      mood: 'celebratory Onam heritage, professional realtor sponsorship',
+      palette: 'marigold orange/yellow, cream borders, tropical greens, charcoal Roy Mathew panel',
+      subject: 'Parsippany Onam 2026 poster with Roy Mathew / Prime Homes & Estates bottom sponsor',
+      setting: 'Onam illustration + Silver Sponsor divider above; Roy Mathew BUY-INVEST-SELL ad below',
+      modifications: ROY_MATHEW_MODIFICATIONS,
+      negative: ROY_MATHEW_NEGATIVE,
+    }));
+    setBasePrompt(DEFAULT_PROMPT);
+    setJsonData(ROY_MATHEW_JSON);
+    setDescribeStatus({
+      kind: 'success',
+      message:
+        '✅ Loaded Roy Mathew bottom-replace preset (matches documentation/nano-banana/HIGGSFIELD_REPLACE_BOTTOM_WITH_ROY_MATHEW.txt). Attach both images, then copy Preview into Higgsfield.',
+    });
+  };
+
   const onDescribe = async () => {
     if (images.length === 0) {
       setDescribeStatus({ kind: 'warning', message: 'Attach at least one image first.' });
@@ -186,16 +276,109 @@ export default function HomePage() {
       });
       const payload = await res.json();
       if (!res.ok) throw new Error(payload.error || payload.detail || `HTTP ${res.status}`);
-      const text: string = (payload.text ?? '').trim();
-      if (text) {
-        setJsonData(text);
-        setDescribeStatus({ kind: 'success', message: `✅ JSON filled (${payload.elapsedMs ?? '?'}ms).` });
+
+      // Prefer structured fields: natural-language prompt (for Higgsfield) + JSON attributes
+      const nlPrompt: string = (payload.prompt ?? '').trim();
+      const jsonPart: string = (payload.json ?? payload.text ?? '').trim();
+
+      if (nlPrompt) {
+        // Put description into modifications; keep Base template so Avoid/JSON tokens still work
+        setBasePrompt(DEFAULT_PROMPT);
+        try {
+          const parsed = JSON.parse(jsonPart) as Record<string, unknown>;
+          setParams(prev => ({
+            ...prev,
+            modifications: nlPrompt,
+            subject: typeof parsed.subject === 'string' ? parsed.subject : prev.subject,
+            setting: typeof parsed.setting === 'string' ? parsed.setting : prev.setting,
+            style: typeof parsed.style === 'string' ? parsed.style : prev.style,
+            lighting: typeof parsed.lighting === 'string' ? parsed.lighting : prev.lighting,
+            camera: typeof parsed.camera_angle === 'string' ? parsed.camera_angle : prev.camera,
+            mood: typeof parsed.mood === 'string' ? parsed.mood : prev.mood,
+            palette: typeof parsed.color_palette === 'string' ? parsed.color_palette : prev.palette,
+          }));
+        } catch {
+          setParams(prev => ({ ...prev, modifications: nlPrompt }));
+        }
+      }
+
+      if (jsonPart) {
+        setJsonData(jsonPart);
+      }
+
+      if (nlPrompt || jsonPart) {
+        setDescribeStatus({
+          kind: 'success',
+          message: nlPrompt
+            ? `✅ Edit prompt + JSON filled (${payload.elapsedMs ?? '?'}ms). Review section 3 modifications / section 5 Preview.`
+            : `✅ JSON filled (${payload.elapsedMs ?? '?'}ms).`,
+        });
       } else {
         setDescribeStatus({ kind: 'warning', message: 'Model returned empty text.' });
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       setDescribeStatus({ kind: 'error', message: `❌ ${msg}` });
+    }
+  };
+
+  /** Expand a short edit request into a Cursor-quality KEEP/REPLACE Higgsfield brief (Claude). */
+  const onExpand = async () => {
+    const short =
+      params.modifications.trim() ||
+      (basePrompt.includes('{{') ? '' : basePrompt.trim()) ||
+      merged.prompt.trim();
+    if (!short) {
+      setExpandStatus({
+        kind: 'warning',
+        message: 'Enter a short edit request in Edit / modifications prompt (section 3), then Expand.',
+      });
+      return;
+    }
+    setExpandStatus({ kind: 'info', message: '✨ Expanding short prompt with Claude…' });
+    try {
+      const res = await fetch('/api/nano-banana', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'expand',
+          prompt: short,
+          images: images.slice(0, 1).map(i => ({ mimeType: i.mimeType, data: i.data })),
+        }),
+      });
+      const payload = await res.json();
+      if (!res.ok) throw new Error(payload.error || payload.detail || `HTTP ${res.status}`);
+
+      const expanded: string = (payload.prompt ?? '').trim();
+      const neg: string = (payload.negative ?? '').trim();
+      const jsonPart: string = (payload.json ?? '').trim();
+
+      if (!expanded) {
+        setExpandStatus({ kind: 'warning', message: 'Expand returned empty prompt.' });
+        return;
+      }
+
+      setBasePrompt(DEFAULT_PROMPT);
+      setParams(prev => ({
+        ...prev,
+        modifications: expanded,
+        ...(neg ? { negative: neg } : {}),
+      }));
+      if (jsonPart) setJsonData(jsonPart);
+
+      setExpandStatus({
+        kind: 'success',
+        message: `✅ Expanded with ${payload.model ?? 'Claude'} (${payload.elapsedMs ?? '?'}ms)${payload.imageNote ?? ''}. Section 5 Preview now has the detailed Higgsfield brief.`,
+      });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      const tooBig = /exceeds 10 MB|10485760/i.test(msg);
+      setExpandStatus({
+        kind: 'error',
+        message: tooBig
+          ? '❌ Image still over Claude’s 10 MB limit after compress. Try Expand again (server will shrink), or use Load Roy Mathew preset / paste without attaching huge PNGs.'
+          : `❌ ${msg}`,
+      });
     }
   };
 
@@ -315,10 +498,14 @@ export default function HomePage() {
 
       {/* 2. DESCRIBE */}
       <section id="describe" className="section-container">
-        <div className="section-header">🔍 2. (Optional) Describe image → JSON</div>
-        <p>Uses <code>gemini-2.5-flash</code> to reverse-engineer the first reference image into structured JSON. The result fills the JSON field below.</p>
+        <div className="section-header">🔍 2. (Optional) Describe image → text prompt + JSON</div>
+        <p>
+          Uses <code>gemini-2.5-flash</code> to reverse-engineer the first reference image into a
+          <strong> natural-language prompt</strong> (filled into Edit / modifications) <em>and</em> structured JSON.
+          For a short hand-written edit request, use <strong>Expand</strong> in section 3 instead (Claude).
+        </p>
         <div className="button-row">
-          <button className="btn describe" type="button" onClick={onDescribe}>🔍 Describe first image → JSON</button>
+          <button className="btn describe" type="button" onClick={onDescribe}>🔍 Describe first image → prompt + JSON</button>
         </div>
         <StatusLine status={describeStatus} />
       </section>
@@ -384,10 +571,20 @@ export default function HomePage() {
         </Row>
 
         <Row single>
-          <Field label="Modifications from reference" htmlFor="p-modifications">
-            <textarea id="p-modifications" value={params.modifications} onChange={(e) => setParam('modifications', e.target.value)} placeholder="what to change vs. the reference image" />
+          <Field label="Edit / modifications prompt (Higgsfield text)" hint="(main prompt body — put short requests here, then Expand; or paste a full Cursor-style brief)" htmlFor="p-modifications">
+            <textarea id="p-modifications" className="tall" value={params.modifications} onChange={(e) => setParam('modifications', e.target.value)} placeholder="Edit the attached poster. Required changes only: …" />
           </Field>
         </Row>
+        <div className="button-row" style={{ marginTop: 0, marginBottom: 12 }}>
+          <button className="btn expand" type="button" onClick={onExpand}>
+            ✨ Expand short prompt → detailed Higgsfield brief (Claude)
+          </button>
+        </div>
+        <StatusLine status={expandStatus} />
+        <p className="hint-small" style={{ marginTop: 0 }}>
+          Preview does <strong>not</strong> auto-rewrite a one-liner into a KEEP/REPLACE brief. Typing a short sentence only
+          substitutes that sentence into the template. Use <strong>Expand</strong> (Claude) or load a preset / paste a Cursor-written prompt.
+        </p>
 
         <Row single>
           <Field label="Negative prompt" hint="(what to avoid)" htmlFor="p-negative">
@@ -411,7 +608,18 @@ export default function HomePage() {
       {/* 4. PROMPT */}
       <section id="prompt" className="section-container">
         <div className="section-header">📝 4. Base prompt + JSON</div>
-        <p>Use <code className="code-highlight">{'{{token}}'}</code> placeholders — e.g. <code className="code-highlight">{'{{subject}}'}</code>, <code className="code-highlight">{'{{aspectRatio}}'}</code>. They are substituted live in the preview. <strong>Replace this default with your real prompt.</strong></p>
+        <p>
+          <strong>How this works:</strong> Section 5 Preview substitutes tokens from Attributes into this template.
+          The default Base prompt is <code className="code-highlight">{'{{modifications}}'}</code> — so the long edit brief
+          in <strong>Edit / modifications prompt</strong> (section 3) becomes the Higgsfield-ready PROMPT.
+          Do not replace the Base template with a short one-liner unless you intend Preview to show only that one-liner.
+          JSON is filled beside it for Nano Banana / structured tools. Higgsfield mainly needs the PROMPT text + attached images.
+        </p>
+        <p>
+          Presets: Title Sponsor header-swap, or Roy Mathew bottom-replace
+          (<code>documentation/nano-banana/HIGGSFIELD_REPLACE_BOTTOM_WITH_ROY_MATHEW.txt</code>). Hard-refresh or click a preset
+          in section 5 if Preview still shows an old prompt.
+        </p>
 
         <Row single>
           <Field label="Base prompt template" htmlFor="p-basePrompt">
@@ -429,10 +637,23 @@ export default function HomePage() {
       {/* 5. PREVIEW */}
       <section id="preview" className="section-container">
         <div className="section-header">👁️ 5. Preview, copy, and run</div>
+        <p className="lede" style={{ marginTop: 0 }}>
+          Live preview is token substitution only (not an AI rewrite). Load a preset, paste a Cursor brief into
+          <strong> Edit / modifications</strong>, or click <strong>Expand</strong> after a short request.
+        </p>
         <h3>Final prompt + JSON (live)</h3>
         <div className="preview-block">{`--- PROMPT ---\n${merged.prompt}\n\n--- JSON ---\n${merged.json}`}</div>
 
         <div className="button-row">
+          <button className="btn describe" type="button" onClick={loadOnamHiggsfieldPreset}>
+            🎯 Load Title Sponsor / header-swap preset
+          </button>
+          <button className="btn expand" type="button" onClick={loadRoyMathewBottomPreset}>
+            🏠 Load Roy Mathew bottom-replace preset
+          </button>
+          <button className="btn expand" type="button" onClick={onExpand}>
+            ✨ Expand short → detailed (Claude)
+          </button>
           <button className="btn template" type="button" onClick={onCopyTemplate}>
             {copyLabel?.id === 'template' ? copyLabel.label : '📄 Copy template'}
           </button>
@@ -441,6 +662,7 @@ export default function HomePage() {
           </button>
           <button className="btn run" type="button" onClick={onRun}>🍌 Run via Nano Banana API</button>
         </div>
+        <StatusLine status={expandStatus} />
         <StatusLine status={runStatus} />
       </section>
 
@@ -534,6 +756,8 @@ const styles = `
   .btn.run:hover { background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%); }
   .btn.describe { background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%); }
   .btn.describe:hover { background: linear-gradient(135deg, #7b1fa2 0%, #6a1b9a 100%); }
+  .btn.expand { background: linear-gradient(135deg, #00897b 0%, #00695c 100%); }
+  .btn.expand:hover { background: linear-gradient(135deg, #00695c 0%, #004d40 100%); }
   .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
   .drop-zone { display: block; border: 2px dashed #b8d4e3; background: #f8fcff; border-radius: 8px; padding: 24px; text-align: center; color: #555; cursor: pointer; transition: all 0.2s ease; }
   .drop-zone.dragover { background: #e8f4f8; border-color: #0066cc; }

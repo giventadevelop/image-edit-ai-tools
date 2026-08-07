@@ -1,0 +1,23 @@
+HIGGSFIELD / IMAGE-EDIT PROMPT — Parsippany Onam 2026 poster
+Attach the source poster as the reference image. Paste the block below into the text prompt field.
+
+--- PROMPT (copy below) ---
+
+Edit the attached Parsippany Onam 2026 event poster. Keep the overall design, illustration, colors, family scene, Kathakali face, marigold garland, date box, QR code, Spectrum Auto photo, OEM logos, and insurance logos identical unless a change is listed below. Do not change any other text.
+
+Required changes only:
+
+1) TOP SPONSOR LABEL: In the upper-left area near the Kerala "God's Own Country" logo, change the small label that currently says "TITLE SPONSOR" (above the Spectrum Auto infinity logo) to exactly: "Powered By". Keep the Spectrum Auto logo and placement the same. Match the existing font style, size, color, and letter-spacing of the original label as closely as possible.
+
+2) BOTTOM SPONSOR SECTION HEIGHT: Increase the height of the entire bottom Spectrum Auto credit / advertisement block (from the Spectrum Auto header through the insurance partner logos). Make this bottom sponsor section noticeably taller — roughly 25–40% more vertical space than the original — even if the full poster becomes taller overall. Scale or reflow the bottom ad content so it remains sharp and readable; do not crop or cut off logos, addresses, or the car photo.
+
+3) NEW TITLE ABOVE BOTTOM SPONSOR: Directly above the enlarged bottom Spectrum Auto sponsor section (and below the tan event-details / date box with the QR code), add a clear centered title line that reads exactly: "Best compliments from our sponsor". Use a clean, elegant dark-brown or near-black serif or semi-bold sans that fits the poster. Give it modest padding above and below so it is clearly a section heading for the sponsor block, without overlapping the date box or the Spectrum Auto header.
+
+Preserve print quality, alignment, and existing branding. Landscape poster layout. No watermarks. No extra slogans.
+
+--- OPTIONAL JSON HINTS (Higgsfield usually ignores JSON; keep for Nano Banana) ---
+{
+  "modifications": "Change top label TITLE SPONSOR to Powered By; enlarge bottom Spectrum Auto sponsor section height by ~25-40%; add centered title 'Best compliments from our sponsor' above that bottom section",
+  "preserve": "All other artwork, event text SEP 5th 2026, location, QR, Spectrum Auto photo and logos",
+  "negative_prompt": "blurry text, misspelled Powered By, cropped logos, overlapping title, watermark"
+}

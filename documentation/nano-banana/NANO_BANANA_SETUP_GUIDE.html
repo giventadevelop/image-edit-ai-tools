@@ -220,6 +220,17 @@
     its <strong>🍌 Run</strong> button posts to <code>/api/nano-banana</code>, which forwards the request
     to Gemini using the key from <code>.env.local</code>.
   </p>
+  <div class="info">
+    <strong>ℹ️ Higgsfield / other AI editors:</strong> Paste the <strong>natural-language prompt</strong>
+    (Base prompt / Copy customized) into Higgsfield with the reference image attached.
+    The JSON is optional structure for this app's templates — Higgsfield mainly uses the text prompt.
+    Use <strong>Describe image → prompt + JSON</strong> to fill both fields from a reference poster.
+  </div>
+  <div class="warning">
+    <strong>⚠️ Keys:</strong> This tool uses <code>GEMINI_API_KEY</code> only.
+    There is <strong>no Anthropic / Claude key</strong> involved in Nano Banana or the describe/generate routes.
+    If you also use Task Master / Claude CLI elsewhere, that would be a separate <code>ANTHROPIC_API_KEY</code> — not required here.
+  </div>
 </div>
 
 <!-- ============================================ -->

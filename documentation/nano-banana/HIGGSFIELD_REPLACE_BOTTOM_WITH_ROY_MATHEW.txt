@@ -1,0 +1,32 @@
+HIGGSFIELD / IMAGE-EDIT PROMPT — Replace bottom sponsor with Roy Mathew ad
+Attach BOTH images:
+1) Main poster: Parsippany Onam 2026 with Silver Sponsor divider + current bottom realtor block (Anish / Sotheby's)
+2) Replacement panel: Roy Mathew / Prime Homes & Estates horizontal ad card
+
+--- PROMPT (copy below) ---
+
+Composite the two attached images into one final poster.
+
+KEEP UNCHANGED (exact, no alteration):
+- Everything from the top of the poster down through and including the middle divider band that says "Best compliments from our Silver Sponsor" (including the side flower icons and horizontal lines).
+- Do not change "PARSIPPANY ONAM 2026", the tagline, Onam illustration, family, boat, pookalam, Kathakali face, date/time/location card, or QR code.
+- Do not crop, truncate, stretch, or resize the top portion. Keep its content, colors, layout, and text exactly as in image 1.
+
+REPLACE ONLY THE BOTTOM SECTION:
+- Remove the entire area BELOW the Silver Sponsor divider (the dark blue Kurian Seethakunnan / Anish contact block and the current portrait photo).
+- Insert image 2 (Roy Mathew / BUY-INVEST-SELL / Prime Homes & Estates ad) as the new bottom section immediately under that divider.
+- The replacement panel must span the FULL WIDTH of the main poster (edge to edge, same width as the Onam section above).
+- Preserve ALL content of image 2 with no loss: "BUY-INVEST-SELL", "I CAN ASSIST!", phone numbers, website, PHE / Prime Homes & Estates logo, Equal Housing / REALTOR / MLS icons, Roy Mathew portrait, floral tie, white name plate "ROY MATHEW", dark charcoal background, and white rounded border.
+- Do not crop letters, logos, or the face. Scale the panel to fit the poster width while keeping aspect ratio of the ad content readable; if height must grow, allow the overall poster to become taller rather than squeezing or clipping image 2.
+- Align the top edge of the Roy Mathew panel cleanly against the bottom edge of the Silver Sponsor divider with no gap, no overlap onto the divider text, and no leftover Anish/Sotheby's content showing through.
+
+OUTPUT:
+- One seamless vertical poster: Onam top (unchanged) + Silver Sponsor divider (unchanged) + Roy Mathew ad (full width, intact).
+- Print-ready, sharp text, no watermarks, no blur, no extra text or logos.
+
+--- SHORT VARIANT ---
+
+Keep the entire top of image 1 unchanged through the "Best compliments from our Silver Sponsor" divider. Replace only the bottom realtor section below that divider with image 2 (Roy Mathew / Prime Homes & Estates ad). Span image 2 full width of the poster with no cropping or lost text/logos. Do not alter anything above the divider.
+
+--- AVOID ---
+cropped Roy Mathew ad, missing phone numbers, cut-off "BUY-INVEST-SELL", leftover Anish/Sotheby's block, altered Onam artwork, changed divider text, gaps or seams, stretched faces, blurry text, watermarks

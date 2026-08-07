@@ -1,0 +1,30 @@
+HIGGSFIELD / IMAGE-EDIT PROMPT — Remove Spectrum Auto "Powered By" footer
+Attach the full poster as the main reference image.
+(Optional) Also attach the close-up of the bottom "Powered By / Spectrum Auto" strip as a second reference showing EXACTLY what to erase.
+
+--- PROMPT (copy below) ---
+
+Edit the attached Parsippany Onam 2026 poster. Keep the entire image identical except for the removal described below. Do not change any other text, faces, logos, colors, or layout.
+
+REMOVE ONLY the bottom footer branding strip that shows:
+- the words "Powered By"
+- the Spectrum Auto interlocking blue-circle / infinity logo
+- the words "SPECTRUM AUTO"
+- the words "Certified Collision Center"
+
+This strip sits at the very bottom of the dark blue Sotheby's / Prominent Properties sponsor panel (under the thin white divider line, below Kurian Seethakunnan (Anish) contact details and the Prominent Properties + Sotheby's logos).
+
+After removal:
+- Fill/inpaint that footer area with a seamless continuation of the same dark navy blue textured background used in the sponsor panel.
+- Do not leave blank white, gray patches, seams, blur blobs, or leftover letters/logo fragments.
+- Do not move or resize the realtor photo, name block, phone numbers, email, address, website, Prominent Properties logo, or Sotheby's International Realty logo.
+- Do not change the top Onam artwork, "PARSIPPANY ONAM 2026" title, date box, QR code, or the line "Best compliments from our sponsor".
+
+Clean professional print result. No watermarks. No new logos. No new text in the cleaned footer area.
+
+--- SHORT VARIANT (if Higgsfield prefers shorter prompts) ---
+
+Remove only the bottom "Powered By" Spectrum Auto logo and "SPECTRUM AUTO / Certified Collision Center" text from the dark blue sponsor footer. Keep everything else identical. Fill the removed area with matching dark navy blue background texture. No leftover text, no logo remnants, no blur patches.
+
+--- NEGATIVE / AVOID ---
+leftover Spectrum Auto logo, leftover Powered By text, ghost letters, mismatched color patch, white rectangle, blurry fill, cropped realtor photo, altered Sotheby's logo, new watermark

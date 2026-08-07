@@ -1,0 +1,28 @@
+HIGGSFIELD / IMAGE-EDIT PROMPT — Title Sponsor divider text (Spectrum Auto poster)
+Attach the full Parsippany Onam 2026 Spectrum Auto landscape poster as the reference image.
+
+--- PROMPT (copy below) ---
+
+Edit the attached Parsippany Onam 2026 poster. Keep the entire image identical except for the single text change described below. Do not alter any other text, artwork, QR code, date box, Spectrum Auto ad, cars, logos, or certifications.
+
+TARGET TEXT (middle horizontal band only):
+- Location: the narrow beige/cream divider strip between the event details / date card and the Spectrum Auto sponsor advertisement at the bottom.
+- Current text (centered): "Best compliments from our sponsor"
+- Small decorative flower/star icons on the left and right of that line should stay.
+
+REQUIRED CHANGES:
+1) Change the wording exactly to: "Best compliments from our Title Sponsor"
+2) Increase the font size of that line noticeably — roughly 30–50% larger than the current size — so it reads clearly as a section heading, while still fitting on one line inside the divider band without wrapping, clipping, or overlapping the side icons.
+3) Keep the same centered alignment, dark/black serif (or matching) typeface style, weight, and color. Preserve the font family if possible; only enlarge and reword.
+
+CONSTRAINTS:
+- Do not change "PARSIPPANY ONAM 2026", the tagline, Kerala logo, top "Powered By SPECTRUM AUTO", date/time/location, QR code, or any Spectrum Auto ad content (building photo, cars, OEM logos, insurance logos, addresses, phones).
+- Do not expand or shrink the divider band height unless needed slightly so the larger text fits cleanly without touching the tan event card above or the Spectrum Auto section below.
+- Clean, sharp, print-ready text. No blur, no double letters, no misspellings (Title Sponsor spelled correctly).
+
+--- SHORT VARIANT ---
+
+On the beige middle divider only, change "Best compliments from our sponsor" to "Best compliments from our Title Sponsor" and increase that font size by about 30–50%. Keep centered; keep the side flower icons; keep everything else on the poster identical.
+
+--- AVOID ---
+misspelled Title Sponsor, wrapped text, clipped letters, blurry type, overlapping icons, altered Spectrum Auto ad, new logos, watermark

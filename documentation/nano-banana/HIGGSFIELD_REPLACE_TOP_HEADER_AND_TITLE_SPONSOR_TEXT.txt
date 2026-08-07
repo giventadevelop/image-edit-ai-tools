@@ -1,0 +1,38 @@
+HIGGSFIELD / IMAGE-EDIT PROMPT — Replace top header + Title Sponsor divider text
+Attach BOTH images:
+1) Main poster: full Parsippany Onam 2026 / Spectrum Auto landscape poster
+2) Reference strip: the corrected top header (Kerala Center of New Jersey + TITLE SPONSOR Spectrum Auto)
+
+--- PROMPT (copy below) ---
+
+Edit the attached main poster. Do not crop, truncate, stretch, or resize the overall canvas — keep the full top and bottom of the poster exactly as they are. Keep every part of the image identical except for the two changes below.
+
+CHANGE 1 — REPLACE TOP TITLE / HEADER SECTION ONLY:
+- Replace ONLY the existing top header bar (the area that currently shows the old Kerala Ghoshan Sah Samiti logo, "Powered By / SPECTRUM AUTO", and "PRESENTING") with the exact design from the attached corrected header reference image.
+- The replacement header must match the reference: circular Kerala Center of New Jersey logo with palm tree and houseboat, "KERALA • CENTER OF NEW JERSEY •" text, dark green "TITLE SPONSOR" pill badge, Spectrum Auto interlocking blue-circle logo, "SPECTRUM AUTO", and tagline "Exceeding Perfection".
+- Blend the new header into the poster so edges align cleanly under the marigold garland / top of the illustration. Do not cut off the garland, title "PARSIPPANY ONAM 2026", family illustration, or anything below the header.
+- Do not invent a different logo set. Use the attached header reference as the source of truth for that top strip only.
+
+CHANGE 2 — MIDDLE DIVIDER TEXT ONLY:
+- Location: the narrow beige/cream band between the event details card and the Spectrum Auto advertisement.
+- Current text: "Best compliments from our sponsor"
+- Change exactly to: "Best compliments from our Title Sponsor"
+- Make that line larger (about 30–50% bigger) and bolder / heavier weight so it reads as a clear heading.
+- Keep it centered on one line; keep the small flower icons on both sides; do not wrap, clip, or overlap the icons.
+- Keep the same dark serif style and color family; only enlarge, bold, and reword.
+
+DO NOT CHANGE:
+- Overall poster height/width (no truncation of top or bottom)
+- "PARSIPPANY ONAM 2026" main title and tagline
+- Onam illustration, family, boat, pookalam, date box, QR code
+- Entire Spectrum Auto bottom advertisement (building, cars, OEM logos, insurance logos, addresses, phones)
+- Any other text or layout outside the top header strip and the middle divider line
+
+Clean, sharp, print-ready result. No watermarks. No blurry text. No misspellings.
+
+--- SHORT VARIANT ---
+
+Keep the full poster uncropped (top and bottom intact). Replace only the top logo/header strip with the attached corrected header (Kerala Center of New Jersey + TITLE SPONSOR Spectrum Auto). Separately, on the beige middle divider only, change "Best compliments from our sponsor" to "Best compliments from our Title Sponsor", make that text larger (~30–50%) and bolder, keep centered with side flowers. Do not alter anything else.
+
+--- AVOID ---
+cropped edges, truncated top or bottom, wrong Kerala logo, leftover Powered By text, misspelled Title Sponsor, thin/light text, wrapped divider text, altered Spectrum Auto ad, new watermarks
