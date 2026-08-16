@@ -1,0 +1,35 @@
+HIGGSFIELD / IMAGE-EDIT PROMPT — Remove top elephants only (KCNJ Onam poster)
+Attach the full poster as the reference image (the version with two white ceremonial elephants flanking "PARSIPPANY").
+
+--- PROMPT (copy below) ---
+
+Edit the attached Parsippany Onam 2026 event poster. Keep the entire poster identical except for the single removal below. Do not change any other artwork, logos, colors, layout, spacing, or text.
+
+REMOVE ONLY THESE TWO ELEPHANTS (TOP SECTION):
+- Remove the small white ceremonial elephant on the LEFT of the word "PARSIPPANY" (facing right, trunk raised, red-and-gold Nettipattam / decorative cloth on head and back).
+- Remove the small white ceremonial elephant on the RIGHT of the word "PARSIPPANY" (facing left, trunk raised, matching red-and-gold ceremonial gear).
+- These two elephants sit in the top header area only — between the Kerala Center of New Jersey logo and the "ONAM 2026" title line, flanking "PARSIPPANY".
+- Do not remove flowers, leaves, people, the snake boat, Kathakali face, pookalam, lamp, or any other illustration.
+
+AFTER REMOVAL — FILL / INPAINT:
+- Fill both elephant areas with a seamless continuation of the same soft cream / light beige header background already behind "PARSIPPANY".
+- If flowers or leaves were partially hidden behind an elephant, restore them to match the existing top floral style (red/yellow hibiscus, green tropical leaves) so the corners and header look natural.
+- No blank white rectangles, gray patches, blur blobs, cut edges, ghost outlines, leftover tusks, trunks, legs, ears, or red/gold ornaments.
+
+KEEP UNCHANGED (exact, no alteration):
+- Kerala Center of New Jersey circular logo and org name at top
+- Exact text and typography: "PARSIPPANY", "ONAM 2026", "LET'S CELEBRATE OUR HERITAGE, TOGETHER AS ONE!"
+- Full central illustration: family, landscape, palm trees, snake boat, Kathakali face, pookalam, nilavilakku
+- Bottom cream panel: date "Sep 5th 2026", time "11.30 AM - 6 PM", venue text, circular icons (ONAM SADYA, CHENDA, KOLKALI, CULTURAL PERFORMANCES), QR code and "Scan to book the tickets"
+- Footer: "ONE CULTURE ❖ ONE COMMUNITY ❖ ONE CELEBRATION" and all contact names/phone numbers
+- Overall portrait size, margins, sharpness, and print quality
+
+OUTPUT:
+- One seamless print-ready poster identical to the original, but with both top elephants gone and no other changes. No new text, logos, animals, or watermarks.
+
+--- SHORT VARIANT ---
+
+Keep this Parsippany Onam 2026 poster 100% identical. Remove only the two small white ceremonial elephants flanking the word "PARSIPPANY" at the top (left elephant facing right, right elephant facing left, both with red-and-gold decorations). Fill with matching cream background; restore any overlapping flowers. Do not change any text, logos, illustration, date box, icons, QR, or footer.
+
+--- AVOID ---
+leftover elephant parts, ghost tusks/trunks, blank white patches, blurry inpaint, shifted PARSIPPANY / ONAM 2026 text, altered Kerala Center logo, cropped floral corners, new animals, new text, watermarks, warped title letters

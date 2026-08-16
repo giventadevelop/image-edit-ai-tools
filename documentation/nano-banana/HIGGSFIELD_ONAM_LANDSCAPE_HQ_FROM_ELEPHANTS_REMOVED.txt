@@ -1,0 +1,40 @@
+HIGGSFIELD — Create HIGH-QUALITY landscape version of Parsippany Onam (elephants removed)
+
+SOURCE: parsippany_onam_elephants_removed.png (portrait, sharp faces)
+
+GOAL:
+1) First produce a standalone 16:9 landscape poster from that source
+2) Preserve ALL content, context, text, logos, QR, icons — nothing removed
+3) Faces must stay sharp / high quality (no blur, no soft redraw)
+4) Add generous padding BELOW the QR code / footer contact row so nothing feels cramped
+5) Top illustration spans full landscape width
+6) No elephants
+
+--- PROMPT (copy) ---
+
+Recreate this Parsippany Onam 2026 poster as a crisp 16:9 landscape event poster.
+
+QUALITY (critical):
+- Photoreal / illustration faces must stay sharp and detailed — no blur, no mushy skin, no soft AI faces
+- Keep print-ready clarity on all text and the QR code
+- Match the source artwork closely; do not restyle into a different look
+
+CONTENT (keep everything):
+- Kerala Center / Kerala Association of New Jersey logo
+- Title: PARSIPPANY ONAM 2026
+- Tagline: LET'S CELEBRATE OUR HERITAGE, TOGETHER AS ONE!
+- Family illustration (father with child on shoulders, mother with sadya tray, second child)
+- Backwaters, palms, pookalam, Kathakali element, festive floral frame
+- Date Sep 5th 2026, time 11:30 AM – 6 PM, venue Parsippany Hills High School address
+- Four icons: ONAM SADYA, CHENDA, KOLKALI, CULTURAL PERFORMANCES
+- QR code with “Scan to book the tickets”
+- Footer: ONE CULTURE • ONE COMMUNITY • ONE CELEBRATION
+- Ticket / sponsorship contact lines
+- NO elephants
+
+LAYOUT:
+- Landscape 16:9, content spans full width
+- Add comfortable empty padding under the QR code and contact footer so the bottom is not tight against the edge
+- Do not crop faces, text, or QR
+
+---

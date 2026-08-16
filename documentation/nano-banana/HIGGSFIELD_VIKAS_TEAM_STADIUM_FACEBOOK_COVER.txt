@@ -1,0 +1,53 @@
+HIGGSFIELD / NANO BANANA PRO — Vikas soccer team → Facebook cover (stadium + turf)
+
+SOURCE
+- public/images/vikas_team/vikas_2024_team_source.png (1024×768 team photo)
+
+GOAL
+Facebook cover photo: wider landscape framing, closer crop on the full team,
+higher sharpness/contrast, replace orange dirt + tree line with an international
+stadium (grandstands + floodlights) and pristine filled green turf.
+
+ASPECT RATIO
+Prefer 21:9 or the widest landscape the model allows (Facebook cover ~2.63:1;
+820×312 display / 1640×624 upload). Center the team; leave small safe margins
+left/right for FB UI crop.
+
+PROMPT (paste with the source image as image1 / reference)
+
+Keep every player identical to the source photo — same faces, hairstyles, body
+poses, jersey colors, and kit details. Do not add, remove, or replace any person.
+Preserve the VIKAS purple/magenta-splatter jerseys, purple shorts, green
+goalkeeper kit on the front-left player, and the two non-matching kits on the
+far-right back row.
+
+Recompose as a tighter close-up team portrait suitable for a Facebook cover:
+crop in so the group fills more of the frame (head-to-cleats still fully visible),
+wide landscape Facebook cover aspect, team centered horizontally.
+
+Replace the orange dirt ground with pristine professional stadium turf —
+lush filled green grass with subtle mowing stripes, realistic shadows under
+cleats matching the new lighting.
+
+Replace the tropical tree line and sky with a modern international soccer
+stadium interior: large grandstands packed with spectators, stadium seating
+rising behind the team, bright floodlights / stadium lighting, professional
+match-day atmosphere. Soft bokeh on distant stands so faces stay sharp.
+
+Improve overall quality: sharper faces and jersey text, richer color, cleaner
+contrast, natural skin tones, photorealistic lighting consistent with stadium
+floodlights. No text overlays, logos, watermarks, or banners added. No extra
+balls or props. Photorealistic sports photography, Facebook cover banner
+composition.
+
+NEGATIVE / AVOID
+- Changing faces or jersey designs
+- Keeping dirt field or palm trees
+- Cropping off heads, feet, or edge players
+- Cartoon / illustration look
+- Extra people or missing players
+- Heavy blur on the team
+
+POST (optional local)
+- Export / crop to 1640×624 for Facebook cover upload
+- Filename suggestion: vikas_2024_stadium_facebook_cover.png

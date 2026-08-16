@@ -1,0 +1,37 @@
+HIGGSFIELD / LOCAL COMPOSITE — Onam top + Gold Sponsor Anish bottom at 50% height
+
+GOAL
+- Landscape (or taller-than-16:9) poster
+- Top: Parsippany Onam 2026 (elephants removed)
+- Bottom from divider down: "Best compliments from our Gold Sponsor" + Anish / Sotheby's block
+- Bottom sponsor section = EXACTLY 50% of total image height (increase overall height if needed)
+- Silver Sponsor → Gold Sponsor only on the divider line
+
+SOURCES
+1) public/images/hero_section/parsippany_onam_elephants_removed.png
+2) public/images/hero_section/anish_kurian_realty_sponsor_landscape_copy_4.png
+   (keep from compliments divider / navy panel through Anish headshot)
+
+DETERMINISTIC BUILD (preferred for exact 50%)
+  node scripts/build-gold-sponsor-50pct.js
+
+Or: take a Higgsfield landscape Gold result, measure compliments+sponsor start row,
+keep that bottom block pixel-for-pixel, set canvas height = 2 × bottomHeight,
+scale Onam top into the upper half.
+
+HIGGSFIELD PROMPT (if regenerating fully — layout may drift from 50%)
+---
+Composite two references into one taller landscape poster.
+
+TOP HALF (exactly 50% of final height): use the Onam elephants-removed poster.
+BOTTOM HALF (exactly 50% of final height): from "Best compliments…" through the Anish /
+Kurian Seethakunnan Sotheby's panel and headshot.
+
+Change divider text to exactly: "Best compliments from our Gold Sponsor"
+(not Silver). Keep flower icons. Do not shrink the sponsor block — increase total
+poster height so the bottom half is 50%. Print-ready, no elephants.
+---
+
+OUTPUT
+- public/images/hero_section/parsippany_onam_gold_sponsor_anish_landscape_50pct.png
+- public/images/hero_section/parsippany_onam_gold_sponsor_anish_landscape.png

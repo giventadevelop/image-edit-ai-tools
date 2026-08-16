@@ -1,0 +1,23 @@
+HIGGSFIELD / NANO BANANA PRO — Vikas 2025 team → Facebook cover (stadium + turf)
+
+SOURCE
+- E:\Categories\code_backup\vikas_2025.jfif
+- public/images/vikas_team/vikas_2025_team_source.png (1200×628)
+
+GOAL
+Facebook cover: realistic stadium background, preserve faces exactly, complete
+cut-off front-row boots/legs, no watermarks/text overlays.
+
+ASPECT
+21:9 generation; export 1640×624 for Facebook upload.
+
+OUTPUT
+- public/images/vikas_team/vikas_2025_stadium_facebook_cover.png
+- public/images/vikas_team/vikas_2025_stadium_facebook_cover_1640x624.jpg
+
+PROMPT NOTES
+- Identity lock on all faces
+- Complete clipped boots/legs with generous turf margin below shoes
+- Stadium + green turf; no dirt/trees
+- No corner flags, no white pitch paint lines
+- Remove AVAILABLE NOW watermark and caption text
